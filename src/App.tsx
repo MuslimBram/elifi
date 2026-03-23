@@ -9,6 +9,7 @@ import Alphabet from "./pages/Alphabet.tsx";
 import Quran from "./pages/Quran.tsx";
 import Tajweed from "./pages/Tajweed.tsx";
 import UmraHajj from "./pages/UmraHajj.tsx";
+import Fikh from "./pages/Fikh.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
