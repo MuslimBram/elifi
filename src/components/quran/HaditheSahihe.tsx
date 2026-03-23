@@ -68,6 +68,7 @@ function speak(text: string) {
 export default function HaditheSahihe() {
   const [expandedCollection, setExpandedCollection] = useState(0);
   const [expandedHadith, setExpandedHadith] = useState<number | null>(null);
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   return (
     <div className="space-y-6">
