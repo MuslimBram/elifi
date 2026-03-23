@@ -165,6 +165,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
+            <GlobalSearch />
             {navItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
