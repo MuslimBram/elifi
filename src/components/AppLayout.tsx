@@ -80,6 +80,7 @@ const navItems = [
       { name: "🔢 Matematika", path: "/games?game=math" },
     ],
   },
+  { name: "Favoritët", path: "/favorites", icon: Heart },
   { name: "Progresi", path: "/progress", icon: BarChart3 },
   { name: "Cilësimet", path: "/settings", icon: Settings },
 ];
