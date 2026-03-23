@@ -300,6 +300,7 @@ export default function SuretView() {
   const [playingAudio, setPlayingAudio] = useState<number | null>(null);
   const [audioRef] = useState<HTMLAudioElement>(new Audio());
   const [searchQuery, setSearchQuery] = useState("");
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const togglePlay = (surahNum: number, url: string) => {
     if (playingAudio === surahNum) {
