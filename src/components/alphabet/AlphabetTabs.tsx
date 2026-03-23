@@ -1,12 +1,13 @@
 import React from "react";
 
 const TABS = [
-  { id: "numrat", label: "Numrat", icon: "🔢" },
   { id: "germat", label: "Germët", icon: "🔤" },
+  { id: "numrat", label: "Numrat", icon: "🔢" },
   { id: "rrokjet", label: "Rrokjet", icon: "🎵" },
   { id: "fjalet", label: "Fjalët", icon: "📝" },
   { id: "zgjedhimi", label: "Zgjedhimi", icon: "✏️" },
   { id: "lakimi", label: "Lakimi", icon: "📋" },
+  { id: "medine", label: "Arabisht Medinë", icon: "🕌" },
 ];
 
 interface Props {
