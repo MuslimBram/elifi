@@ -9,6 +9,7 @@ const tabs = [
   { id: "akide", label: "🕌 Akide" },
   { id: "pastresia", label: "💧 Pastërtia" },
   { id: "namazi", label: "🤲 Namazi" },
+  { id: "namazguide", label: "🕌 Udhëzuesi" },
   { id: "agjrimi", label: "🌙 Agjërimi" },
   { id: "zekati", label: "💰 Zekati" },
   { id: "duate", label: "🌿 Duatë" },
