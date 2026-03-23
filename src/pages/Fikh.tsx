@@ -330,11 +330,37 @@ function ZekatiTabFull() {
   );
 }
 
+const DUA_CATEGORIES = [
+  { value: "te_gjitha", label: "🌟 Të Gjitha" },
+  { value: "ushqim", label: "🍽️ Ushqimi" },
+  { value: "gjumi", label: "🛏️ Gjumi" },
+  { value: "xhami", label: "🕌 Xhamia" },
+  { value: "namaz", label: "🤲 Namazi" },
+  { value: "shtepi", label: "🏠 Shtëpia" },
+  { value: "udhetim", label: "✈️ Udhëtimi" },
+  { value: "dhikr", label: "📿 Dhikri" },
+  { value: "sprova", label: "💪 Sprovat" },
+  { value: "natyra", label: "🌿 Natyra" },
+  { value: "familje", label: "👨‍👩‍👧 Familja" },
+];
+
 function DuateTab() {
+  const [category, setCategory] = React.useState("te_gjitha");
+  const filtered = category === "te_gjitha" ? duate : duate.filter(d => d.category === category);
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
-      <h2 className="text-xl font-bold text-foreground mb-4">🌿 Duatë e Përditshme</h2>
-      {duate.map((dua, i) => (
+      <h2 className="text-xl font-bold text-foreground mb-2">🌿 Duatë e Përditshme ({duate.length})</h2>
+      <div className="flex flex-wrap gap-2 mb-4">
+        {DUA_CATEGORIES.map(c => (
+          <button key={c.value} onClick={() => setCategory(c.value)}
+            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+              category === c.value ? "bg-primary text-primary-foreground shadow-md" : "bg-card border border-border text-foreground/70 hover:border-primary/50"
+            }`}>{c.label}</button>
+        ))}
+      </div>
+      <p className="text-xs text-muted-foreground">{filtered.length} dua</p>
+      {filtered.map((dua, i) => (
         <div key={i} className="glass-card rounded-2xl p-6">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-bold text-primary">{dua.title}</h3>

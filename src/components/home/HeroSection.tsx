@@ -58,6 +58,7 @@ export default function HeroSection() {
           <PrayerTimesWidget />
           <div className="space-y-6">
             <DailyVerse />
+            <WordOfTheDay />
           </div>
         </motion.div>
 
