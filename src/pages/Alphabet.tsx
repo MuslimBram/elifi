@@ -8,6 +8,7 @@ import SyllablesView from "@/components/alphabet/SyllablesView";
 import WordsView from "@/components/alphabet/WordsView";
 import VerbConjugationView from "@/components/alphabet/VerbConjugationView";
 import NounDeclensionView from "@/components/alphabet/NounDeclensionView";
+import MadinahArabicView from "@/components/alphabet/MadinahArabicView";
 
 const languages = [
   { value: "shqip", label: "🇦🇱 Shqip" },
@@ -17,7 +18,7 @@ const languages = [
 
 export default function Alphabet() {
   const [searchParams] = useSearchParams();
-  const tabFromUrl = searchParams.get("tab") || "numrat";
+  const tabFromUrl = searchParams.get("tab") || "germat";
   const [activeTab, setActiveTab] = useState(tabFromUrl);
   const [selectedLang, setSelectedLang] = useState("shqip");
 
@@ -25,7 +26,6 @@ export default function Alphabet() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
-      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -43,10 +43,8 @@ export default function Alphabet() {
         </p>
       </motion.div>
 
-      {/* Tabs */}
       <AlphabetTabs activeTab={activeTab} onTabChange={setActiveTab} />
 
-      {/* Language Filter */}
       {showLangFilter && (
         <div className="flex flex-wrap items-center gap-4 mb-8 mt-6">
           <p className="text-xs font-semibold text-primary">Gjuha</p>
@@ -68,7 +66,6 @@ export default function Alphabet() {
         </div>
       )}
 
-      {/* Content */}
       <div className="mt-6">
         {activeTab === "numrat" && <NumberLearningView language={selectedLang} />}
         {activeTab === "germat" && (
@@ -84,6 +81,7 @@ export default function Alphabet() {
         {activeTab === "fjalet" && <WordsView language={selectedLang} />}
         {activeTab === "zgjedhimi" && <VerbConjugationView />}
         {activeTab === "lakimi" && <NounDeclensionView />}
+        {activeTab === "medine" && <MadinahArabicView />}
       </div>
     </div>
   );
