@@ -60,6 +60,7 @@ export default function HeroSection() {
           <div className="space-y-6">
             <DailyVerse />
             <WordOfTheDay />
+            <DuaOfTheDay />
           </div>
         </motion.div>
 
