@@ -4,6 +4,7 @@ import { BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import QuranTabs from "@/components/quran/QuranTabs";
 import SuretView from "@/components/quran/SuretView";
+import HaditheSahihe from "@/components/quran/HaditheSahihe";
 import QuranQuizView from "@/components/quran/QuranQuizView";
 import QuranProgressView from "@/components/quran/QuranProgressView";
 import SevapetView from "@/components/quran/SevapetView";
@@ -32,6 +33,7 @@ export default function Quran() {
 
       <div className="mt-8">
         {activeTab === "suret" && <SuretView />}
+        {activeTab === "hadithe" && <HaditheSahihe />}
         {activeTab === "quiz" && <QuranQuizView />}
         {activeTab === "progress" && <QuranProgressView />}
         {activeTab === "sevapet" && <SevapetView />}
