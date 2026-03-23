@@ -25,7 +25,7 @@ export default function Alphabet() {
   const [activeTab, setActiveTab] = useState(tabFromUrl);
   const [selectedLang, setSelectedLang] = useState("shqip");
 
-  const showLangFilter = ["numrat", "germat", "rrokjet", "fjalet"].includes(activeTab);
+  const showLangFilter = ["numrat", "germat", "rrokjet", "fjalet", "flashcards"].includes(activeTab);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
