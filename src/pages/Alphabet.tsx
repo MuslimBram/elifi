@@ -7,6 +7,8 @@ import LettersView from "@/components/alphabet/LettersView";
 import NumberLearningView from "@/components/alphabet/NumberLearningView";
 import SyllablesView from "@/components/alphabet/SyllablesView";
 import WordsView from "@/components/alphabet/WordsView";
+import FlashcardsView from "@/components/alphabet/FlashcardsView";
+import DrawingCanvas from "@/components/alphabet/DrawingCanvas";
 import VerbConjugationView from "@/components/alphabet/VerbConjugationView";
 import NounDeclensionView from "@/components/alphabet/NounDeclensionView";
 import MadinahArabicView from "@/components/alphabet/MadinahArabicView";
@@ -23,7 +25,7 @@ export default function Alphabet() {
   const [activeTab, setActiveTab] = useState(tabFromUrl);
   const [selectedLang, setSelectedLang] = useState("shqip");
 
-  const showLangFilter = ["numrat", "germat", "rrokjet", "fjalet"].includes(activeTab);
+  const showLangFilter = ["numrat", "germat", "rrokjet", "fjalet", "flashcards"].includes(activeTab);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
@@ -72,6 +74,8 @@ export default function Alphabet() {
         {activeTab === "germat" && <LettersView language={selectedLang} />}
         {activeTab === "rrokjet" && <SyllablesView language={selectedLang} />}
         {activeTab === "fjalet" && <WordsView language={selectedLang} />}
+        {activeTab === "flashcards" && <FlashcardsView language={selectedLang} />}
+        {activeTab === "vizato" && <DrawingCanvas letter={selectedLang === "arabisht" ? "ا" : "A"} />}
         {activeTab === "zgjedhimi" && <VerbConjugationView />}
         {activeTab === "lakimi" && <NounDeclensionView />}
         {activeTab === "medine" && <MadinahArabicView />}
