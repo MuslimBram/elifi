@@ -14,6 +14,7 @@ import Fikh from "./pages/Fikh.tsx";
 import Games from "./pages/Games.tsx";
 import Progress from "./pages/Progress.tsx";
 import Settings from "./pages/Settings.tsx";
+import Favorites from "./pages/Favorites.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
