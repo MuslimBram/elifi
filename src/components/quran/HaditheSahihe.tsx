@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, Volume2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Volume2, Heart } from "lucide-react";
+import { useFavorites } from "@/hooks/useFavorites";
 
 interface Hadith {
   arabic: string;
