@@ -1,0 +1,387 @@
+import React, { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Star, CheckCircle, XCircle } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const tabs = [
+  { id: "akide", label: "🕌 Akide" },
+  { id: "pastresia", label: "💧 Pastërtia" },
+  { id: "namazi", label: "🤲 Namazi" },
+  { id: "agjrimi", label: "🌙 Agjërimi" },
+  { id: "zekati", label: "💰 Zekati" },
+  { id: "duate", label: "🌿 Duatë" },
+  { id: "kuiz", label: "🎯 Kuiz" },
+];
+
+/* ─── AKIDE ─── */
+const akideTopics = [
+  { title: "Besimi në Allah", icon: "☝️", points: ["Allahu është Një (Teuhid)", "Ai është Krijuesi i çdo gjëje", "Ai ka Emrat dhe Cilësitë më të bukura", "Nuk i ngjason asgjëje: «Lejse kemithlihi shej'un»"] },
+  { title: "Besimi në Engjëjt", icon: "👼", points: ["Krijuar nga drita (nuri)", "Nuk kanë gjini, nuk hanë e nuk pinë", "Xhibrili – sillte Shpalljen", "Mikaili – shpërndan furnizimin", "Israfili – fryn në Sur"] },
+  { title: "Besimi në Librat", icon: "📖", points: ["Teurati – Musait a.s.", "Zeburi – Davudit a.s.", "Inxhili – Isait a.s.", "Kur'ani – Muhamedit ﷺ (i fundit, i ruajtur)"] },
+  { title: "Besimi në Profetët", icon: "🕊️", points: ["124,000 profetë (sipas disa transmetimeve)", "25 përmenden në Kur'an", "Muhamedi ﷺ është vula e profetëve", "Të gjithë thirrën në Teuhid"] },
+  { title: "Besimi në Ditën e Fundit", icon: "⚖️", points: ["Jeta e varrit (Berzahu)", "Ringjallja dhe tubimi", "Peshorja e veprave (Mizani)", "Xheneti dhe Xhehenemi"] },
+  { title: "Besimi në Kaderin", icon: "📝", points: ["Allahu di çdo gjë para se të ndodhë", "Çdo gjë është shkruar në Lehvi Mahfudh", "Asgjë nuk ndodh pa vullnetin e Tij", "Njeriu ka përgjegjësi për zgjedhjet e veta"] },
+];
+
+/* ─── PASTËRTIA ─── */
+const abdestSteps = [
+  { step: 1, title: "Nijeti", desc: "Bëj nijet me zemër për abdes.", icon: "💭" },
+  { step: 2, title: "Larja e duarve", desc: "Laj duart 3 herë deri te kyçet.", icon: "🤲" },
+  { step: 3, title: "Shpëlarja e gojës", desc: "Fut ujë në gojë dhe shpëlaje 3 herë (Madmada).", icon: "👄" },
+  { step: 4, title: "Shpëlarja e hundës", desc: "Tërhiq ujë në hundë dhe pastro 3 herë (Istinshak).", icon: "👃" },
+  { step: 5, title: "Larja e fytyrës", desc: "Laj fytyrën 3 herë nga veshi në vesh, nga balli deri nën mjekër.", icon: "😊" },
+  { step: 6, title: "Larja e krahëve", desc: "Laj krahun e djathtë pastaj të majtën, 3 herë secilën, deri mbi bërryl.", icon: "💪" },
+  { step: 7, title: "Mes'hi i kokës", desc: "Lago duart dhe fërko kokën nga para-prapa një herë.", icon: "🧕" },
+  { step: 8, title: "Mes'hi i veshëve", desc: "Fërko brendësinë dhe jashtësinë e veshëve.", icon: "👂" },
+  { step: 9, title: "Larja e këmbëve", desc: "Laj këmbën e djathtë pastaj të majtën, 3 herë secilën, deri mbi nyje.", icon: "🦶" },
+];
+
+/* ─── NAMAZI ─── */
+const namazet = [
+  { name: "Sabahu (Fexhri)", time: "Para lindjes së diellit", farz: 2, sunet: 2, icon: "🌅" },
+  { name: "Dreka (Dhuhr)", time: "Kur dielli kalon zenitin", farz: 4, sunet: 6, icon: "☀️" },
+  { name: "Ikindia (Asr)", time: "Kur hija bëhet sa objekti", farz: 4, sunet: 0, icon: "🌤️" },
+  { name: "Akshami (Magrib)", time: "Pas perëndimit të diellit", farz: 3, sunet: 2, icon: "🌅" },
+  { name: "Jacia (Isha)", time: "Kur errësira mbizotëron", farz: 4, sunet: 4, icon: "🌙" },
+];
+
+const namazSteps = [
+  "Qëndro drejt kah Kibleja (Kijam)",
+  "Thuaj «Allahu Ekber» duke ngritur duart (Tekbiri fillestar)",
+  "Lexo Fatihanë dhe një sure",
+  "Bëj Rukunë – përkulje duke thënë «Subhane Rabijel-Adhim» 3 herë",
+  "Ngrihu nga Rukuja – «Semi'Allahu limen hamideh, Rabbena lekel-hamd»",
+  "Bëj Sexhde – «Subhane Rabijel-A'la» 3 herë",
+  "Ul mes dy sexhdeve – «Rabbigfirli» 2 herë",
+  "Bëj sexhden e dytë",
+  "Në uljen e fundit lexo Ettehijatin, salavatin dhe bëj selam",
+];
+
+/* ─── AGJËRIMI ─── */
+const agjerimRules = [
+  { title: "Kushtet e Agjërimit", items: ["Të jesh musliman", "I rritur (puberteti)", "I shëndoshë mendërisht", "I aftë fizikisht", "Vendas (jo udhëtar i gjatë)"] },
+  { title: "Çka e prish Agjërimin", items: ["Ngrënia dhe pirja me qëllim", "Marrëdhëniet intime", "Vjellja me qëllim", "Menstruacionet", "Injeksione ushqyese"] },
+  { title: "Çka NUK e prish", items: ["Ngrënia/pirja pa qëllim (harresë)", "Gëlltitja e pështymës", "Injeksione jo-ushqyese", "Misvaku (pastrimi i dhëmbëve)", "Larja dhe notimi"] },
+  { title: "Sunetet e Agjërimit", items: ["Syfyri (ngrënia para agimit)", "Iftari sa më shpejt pas perëndimit", "Duaja e iftarit", "Leximi i Kur'anit", "Bamirësia e shtuar"] },
+];
+
+/* ─── ZEKATI ─── */
+const zekatInfo = [
+  { title: "Çka është Zekati?", desc: "Shtylla e 4-t e Islamit. Pastrim i pasurisë duke dhënë 2.5% të pasurisë vjetore." },
+  { title: "Kush e jep?", desc: "Çdo musliman i lirë që posedon nisabin (pragun minimal) për një vit hënor." },
+  { title: "Nisabi", desc: "Ekuivalenti i 85g ari ose 595g argjend. Llogarit vlerën aktuale." },
+  { title: "Kujt i jepet?", desc: "8 kategori: Të varfrit, Nevojtarët, Mbledhësit e zekatit, Ata që duhen afruar me Islam, Robërit, Borxhlinjtë, Në rrugën e Allahut, Udhëtarët." },
+];
+
+/* ─── DUATË ─── */
+const duate = [
+  { title: "Duaja para ngrënies", arabic: "بِسْمِ اللَّهِ", trans: "Bismilah", meaning: "Me emrin e Allahut." },
+  { title: "Duaja pas ngrënies", arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلاَ قُوَّةٍ", trans: "Elhamdu lil-lahil-ledhi at'ameni hadha ve razekanihi min gajri havlin minni ve la kuvveh", meaning: "Lavdërimi i takon Allahut që më ushqeu me këtë dhe ma furnizoi pa fuqi e forcë nga ana ime." },
+  { title: "Duaja para gjumit", arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", trans: "Bismike Allahumme emutu ve ahja", meaning: "Me emrin Tënd, o Allah, vdes dhe jetoj." },
+  { title: "Duaja e zgjimit", arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", trans: "Elhamdu lil-lahil-ledhi ahjana ba'de ma ematena ve ilejhin-nushur", meaning: "Lavdërimi i takon Allahut që na ringjalli pasi na bëri të vdekur, dhe tek Ai është kthimi." },
+  { title: "Duaja e hyrjes në xhami", arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", trans: "Allahummeftah li ebvabe rahmetik", meaning: "O Allah, m'i hap dyert e mëshirës Sate." },
+  { title: "Duaja e daljes nga xhaminë", arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ", trans: "Allahumme inni es'eluke min fadlik", meaning: "O Allah, të lutem nga mirësia Jote." },
+  { title: "Duaja e udhëtimit", arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ", trans: "Subhanel-ledhi sehhare lena hadha ve ma kunna lehu mukrinin", meaning: "I Lartësuar është Ai që na nënshtroi këtë, dhe ne nuk do kishim mundur ta bënim." },
+  { title: "Istigfari", arabic: "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ", trans: "Estagfirullahel-adhim el-ledhi la ilahe il-la huvel-hajjul-kajjum ve etubu ilejh", meaning: "I kërkoj falje Allahut të Madhërishëm, përveç të Cilit nuk ka zot tjetër, i Gjalli, Mbikëqyrësi, dhe pendohem tek Ai." },
+];
+
+/* ─── KUIZ ─── */
+const fikhQuiz = [
+  { q: "Sa janë shtyllat e Islamit?", options: ["3", "5", "7", "4"], correct: 1 },
+  { q: "Sa herë lahet fytyra gjatë abdesit?", options: ["1 herë", "2 herë", "3 herë", "4 herë"], correct: 2 },
+  { q: "Sa rekate farz ka namazi i Sabahut?", options: ["2", "3", "4", "1"], correct: 0 },
+  { q: "Cili muaj është muaji i agjërimit?", options: ["Shaban", "Ramazan", "Sheval", "Dhul-Hixhe"], correct: 1 },
+  { q: "Sa përqind është Zekati?", options: ["1%", "5%", "2.5%", "10%"], correct: 2 },
+  { q: "Sa janë shtyllat e Imanit?", options: ["5", "6", "7", "4"], correct: 1 },
+  { q: "Cili engjëll sillte Shpalljen?", options: ["Mikaili", "Israfili", "Xhibrili", "Azraili"], correct: 2 },
+  { q: "Sa namaze farz ka brenda ditës?", options: ["3", "4", "5", "6"], correct: 2 },
+  { q: "Çfarë e prish agjërimin?", options: ["Misvaku", "Ngrënia me qëllim", "Gëlltitja e pështymës", "Larja"], correct: 1 },
+  { q: "Sa kategori përfitojnë nga Zekati?", options: ["5", "6", "8", "10"], correct: 2 },
+];
+
+export default function Fikh() {
+  const [searchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get("tab") || "akide";
+  const [activeTab, setActiveTab] = useState(tabFromUrl);
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-10">
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary text-secondary-foreground text-sm font-medium mb-4">
+          <Star className="w-4 h-4" />
+          Bazat e Fesë
+        </div>
+        <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-2">
+          <span className="text-gradient">Fikh Elementar</span>
+        </h1>
+        <p className="text-muted-foreground max-w-xl mx-auto">
+          Mëso bazat e besimit, namazit, agjërimit, zekatit dhe duave të përditshme.
+        </p>
+      </motion.div>
+
+      {/* Tabs */}
+      <div className="flex flex-wrap gap-2 justify-center mb-8">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveTab(tab.id)}
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+              activeTab === tab.id
+                ? "bg-primary text-primary-foreground shadow-md"
+                : "bg-card border border-border text-foreground/70 hover:border-primary/50"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      <AnimatePresence mode="wait">
+        {activeTab === "akide" && <AkideTab key="akide" />}
+        {activeTab === "pastresia" && <PastresiaTab key="pastresia" />}
+        {activeTab === "namazi" && <NamaziTab key="namazi" />}
+        {activeTab === "agjrimi" && <AgjrimiTab key="agjrimi" />}
+        {activeTab === "zekati" && <ZekatiTab key="zekati" />}
+        {activeTab === "duate" && <DuateTab key="duate" />}
+        {activeTab === "kuiz" && <KuizTab key="kuiz" />}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function AkideTab() {
+  const [expanded, setExpanded] = useState<number | null>(null);
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
+      <h2 className="text-xl font-bold text-foreground mb-4">☝️ Shtyllat e Imanit (Besimit)</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {akideTopics.map((topic, i) => (
+          <div
+            key={i}
+            className="glass-card rounded-2xl p-5 cursor-pointer hover:shadow-lg transition-all"
+            onClick={() => setExpanded(expanded === i ? null : i)}
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <span className="text-2xl">{topic.icon}</span>
+              <h3 className="font-bold text-foreground">{topic.title}</h3>
+            </div>
+            {expanded === i && (
+              <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-3 space-y-1.5">
+                {topic.points.map((p, j) => (
+                  <li key={j} className="flex items-start gap-2 text-sm text-foreground/80">
+                    <span className="text-primary mt-0.5">•</span> {p}
+                  </li>
+                ))}
+              </motion.ul>
+            )}
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function PastresiaTab() {
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4">
+      <h2 className="text-xl font-bold text-foreground mb-4">💧 Hapat e Abdesit</h2>
+      {abdestSteps.map((s) => (
+        <div key={s.step} className="glass-card rounded-2xl p-4 flex items-start gap-4">
+          <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-xl flex-shrink-0">
+            {s.icon}
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-0.5">
+              <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                {s.step}
+              </span>
+              <h3 className="font-bold text-foreground text-sm">{s.title}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground">{s.desc}</p>
+          </div>
+        </div>
+      ))}
+    </motion.div>
+  );
+}
+
+function NamaziTab() {
+  const [showSteps, setShowSteps] = useState(false);
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <h2 className="text-xl font-bold text-foreground mb-4">🤲 Pesë Namazet Ditore</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+        {namazet.map((n, i) => (
+          <div key={i} className="glass-card rounded-2xl p-5 text-center">
+            <span className="text-3xl block mb-2">{n.icon}</span>
+            <h3 className="font-bold text-foreground text-sm mb-1">{n.name}</h3>
+            <p className="text-xs text-muted-foreground mb-3">{n.time}</p>
+            <div className="flex justify-center gap-3">
+              <div className="text-center">
+                <p className="text-lg font-bold text-primary">{n.farz}</p>
+                <p className="text-[10px] text-muted-foreground">Farz</p>
+              </div>
+              {n.sunet > 0 && (
+                <div className="text-center">
+                  <p className="text-lg font-bold text-foreground/60">{n.sunet}</p>
+                  <p className="text-[10px] text-muted-foreground">Sunet</p>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={() => setShowSteps(!showSteps)}
+        className="px-4 py-2 rounded-xl bg-primary text-primary-foreground text-sm font-medium mb-4"
+      >
+        {showSteps ? "Fshih hapat" : "🕌 Si falet namazi? — Shiko hapat"}
+      </button>
+
+      {showSteps && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass-card rounded-2xl p-6 space-y-3">
+          {namazSteps.map((step, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <span className="w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center flex-shrink-0">
+                {i + 1}
+              </span>
+              <p className="text-sm text-foreground/80 pt-1">{step}</p>
+            </div>
+          ))}
+        </motion.div>
+      )}
+    </motion.div>
+  );
+}
+
+function AgjrimiTab() {
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <h2 className="text-xl font-bold text-foreground mb-4">🌙 Agjërimi (Ramazani)</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {agjerimRules.map((section, i) => (
+          <div key={i} className="glass-card rounded-2xl p-6">
+            <h3 className="font-bold text-foreground mb-3">{section.title}</h3>
+            <ul className="space-y-2">
+              {section.items.map((item, j) => (
+                <li key={j} className="flex items-start gap-2 text-sm text-foreground/80">
+                  <span className="text-primary mt-0.5">✓</span> {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function ZekatiTab() {
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <h2 className="text-xl font-bold text-foreground mb-4">💰 Zekati</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {zekatInfo.map((z, i) => (
+          <div key={i} className="glass-card rounded-2xl p-6">
+            <h3 className="font-bold text-primary mb-2">{z.title}</h3>
+            <p className="text-sm text-foreground/80">{z.desc}</p>
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function DuateTab() {
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
+      <h2 className="text-xl font-bold text-foreground mb-4">🌿 Duatë e Përditshme</h2>
+      {duate.map((dua, i) => (
+        <div key={i} className="glass-card rounded-2xl p-6">
+          <h3 className="font-bold text-primary mb-3">{dua.title}</h3>
+          <p className="text-xl md:text-2xl text-foreground font-arabic text-right leading-loose mb-3" dir="rtl">
+            {dua.arabic}
+          </p>
+          <p className="text-sm text-primary/80 italic mb-2">{dua.trans}</p>
+          <div className="bg-secondary/50 rounded-xl p-3">
+            <p className="text-sm text-foreground/80">🇦🇱 {dua.meaning}</p>
+          </div>
+        </div>
+      ))}
+    </motion.div>
+  );
+}
+
+function KuizTab() {
+  const [current, setCurrent] = useState(0);
+  const [score, setScore] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [finished, setFinished] = useState(false);
+
+  const handleAnswer = (idx: number) => {
+    if (selected !== null) return;
+    setSelected(idx);
+    if (idx === fikhQuiz[current].correct) setScore((s) => s + 1);
+    setTimeout(() => {
+      if (current + 1 < fikhQuiz.length) {
+        setCurrent((c) => c + 1);
+        setSelected(null);
+      } else {
+        setFinished(true);
+      }
+    }, 1200);
+  };
+
+  if (finished) {
+    return (
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass-card rounded-2xl p-8 text-center max-w-md mx-auto">
+        <div className="text-5xl mb-4">{score >= 8 ? "🏆" : score >= 5 ? "👏" : "📚"}</div>
+        <h2 className="text-2xl font-bold text-foreground mb-2">Rezultati: {score}/{fikhQuiz.length}</h2>
+        <p className="text-muted-foreground mb-6">
+          {score >= 8 ? "Shkëlqyeshëm! Ke njohuri shumë të mira." : score >= 5 ? "Mirë! Vazhdo të mësosh." : "Provo përsëri dhe mëso më shumë!"}
+        </p>
+        <button
+          onClick={() => { setCurrent(0); setScore(0); setSelected(null); setFinished(false); }}
+          className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground font-medium"
+        >
+          Provo Përsëri
+        </button>
+      </motion.div>
+    );
+  }
+
+  const q = fikhQuiz[current];
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-lg mx-auto">
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-sm text-muted-foreground">Pyetja {current + 1}/{fikhQuiz.length}</span>
+        <span className="text-sm font-bold text-primary">Pikë: {score}</span>
+      </div>
+      <div className="w-full bg-secondary rounded-full h-2 mb-6">
+        <div className="bg-primary h-2 rounded-full transition-all" style={{ width: `${((current + 1) / fikhQuiz.length) * 100}%` }} />
+      </div>
+      <div className="glass-card rounded-2xl p-6 mb-4">
+        <h3 className="text-lg font-bold text-foreground">{q.q}</h3>
+      </div>
+      <div className="space-y-3">
+        {q.options.map((opt, i) => {
+          let cls = "glass-card rounded-xl p-4 text-sm font-medium cursor-pointer transition-all hover:shadow-md";
+          if (selected !== null) {
+            if (i === q.correct) cls += " border-2 border-green-500 bg-green-500/10";
+            else if (i === selected) cls += " border-2 border-red-500 bg-red-500/10";
+          }
+          return (
+            <div key={i} className={cls} onClick={() => handleAnswer(i)}>
+              <div className="flex items-center justify-between">
+                <span className="text-foreground/80">{opt}</span>
+                {selected !== null && i === q.correct && <CheckCircle className="w-5 h-5 text-green-500" />}
+                {selected !== null && i === selected && i !== q.correct && <XCircle className="w-5 h-5 text-red-500" />}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </motion.div>
+  );
+}
