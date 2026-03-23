@@ -22,8 +22,9 @@ function getStoredProgress() {
       }
       if (data.score !== undefined) totalScore += data.score;
       if (data.lastPlayed && (!lastPlayed || data.lastPlayed > lastPlayed)) lastPlayed = data.lastPlayed;
-    } catch {
-      const n = parseInt(raw!);
+    } catch (e) {
+      const stored = localStorage.getItem(key);
+      const n = parseInt(stored || "");
       if (!isNaN(n)) totalScore += n;
     }
   }
