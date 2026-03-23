@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Star, CheckCircle, XCircle } from "lucide-react";
+import { Star, CheckCircle, XCircle, Volume2, Timer } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import ZekatiCalculator from "@/components/fikh/ZekatiCalculator";
 
 const tabs = [
   { id: "akide", label: "🕌 Akide" },
@@ -65,7 +66,7 @@ const agjerimRules = [
   { title: "Sunetet e Agjërimit", items: ["Syfyri (ngrënia para agimit)", "Iftari sa më shpejt pas perëndimit", "Duaja e iftarit", "Leximi i Kur'anit", "Bamirësia e shtuar"] },
 ];
 
-/* ─── ZEKATI ─── */
+/* ─── ZEKATI INFO ─── */
 const zekatInfo = [
   { title: "Çka është Zekati?", desc: "Shtylla e 4-t e Islamit. Pastrim i pasurisë duke dhënë 2.5% të pasurisë vjetore." },
   { title: "Kush e jep?", desc: "Çdo musliman i lirë që posedon nisabin (pragun minimal) për një vit hënor." },
@@ -83,6 +84,8 @@ const duate = [
   { title: "Duaja e daljes nga xhaminë", arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ", trans: "Allahumme inni es'eluke min fadlik", meaning: "O Allah, të lutem nga mirësia Jote." },
   { title: "Duaja e udhëtimit", arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ", trans: "Subhanel-ledhi sehhare lena hadha ve ma kunna lehu mukrinin", meaning: "I Lartësuar është Ai që na nënshtroi këtë, dhe ne nuk do kishim mundur ta bënim." },
   { title: "Istigfari", arabic: "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ", trans: "Estagfirullahel-adhim el-ledhi la ilahe il-la huvel-hajjul-kajjum ve etubu ilejh", meaning: "I kërkoj falje Allahut të Madhërishëm, përveç të Cilit nuk ka zot tjetër, i Gjalli, Mbikëqyrësi, dhe pendohem tek Ai." },
+  { title: "Duaja e hyrjes në shtëpi", arabic: "بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَى رَبِّنَا تَوَكَّلْنَا", trans: "Bismil-lahi velexhna ve bismil-lahi harexhna ve ala Rabbina tevekkelna", meaning: "Me emrin e Allahut hymë, me emrin e Allahut dalim, dhe tek Zoti ynë mbështetemi." },
+  { title: "Duaja kur bie shi", arabic: "اللَّهُمَّ صَيِّبًا نَافِعًا", trans: "Allahumme sajjiben nafi'an", meaning: "O Allah, bëje shi të dobishëm!" },
 ];
 
 /* ─── KUIZ ─── */
@@ -97,7 +100,26 @@ const fikhQuiz = [
   { q: "Sa namaze farz ka brenda ditës?", options: ["3", "4", "5", "6"], correct: 2 },
   { q: "Çfarë e prish agjërimin?", options: ["Misvaku", "Ngrënia me qëllim", "Gëlltitja e pështymës", "Larja"], correct: 1 },
   { q: "Sa kategori përfitojnë nga Zekati?", options: ["5", "6", "8", "10"], correct: 2 },
+  { q: "Cila është shtylla e parë e Islamit?", options: ["Namazi", "Agjërimi", "Shehadeti", "Haxhi"], correct: 2 },
+  { q: "Sa rekate farz ka namazi i Drekës?", options: ["2", "3", "4", "5"], correct: 2 },
+  { q: "Çka është Gusli?", options: ["Larja e duarve", "Abdesi", "Larja e plotë e trupit", "Tejemumi"], correct: 2 },
+  { q: "Kur bëhet Tejemumi?", options: ["Çdo ditë", "Kur nuk ka ujë", "Para gjumit", "Pas ngrënies"], correct: 1 },
+  { q: "Sa rekate farz ka Akshami?", options: ["2", "3", "4", "5"], correct: 1 },
+  { q: "Çka është Nisabi i arit?", options: ["50g", "72g", "85g", "100g"], correct: 2 },
+  { q: "Çka lexohet në çdo rekat të namazit?", options: ["Ajetu-l-Kursi", "El-Fatiha", "El-Ihlas", "Et-Tehijatu"], correct: 1 },
+  { q: "Sa herë në ditë bëhet ezani?", options: ["3", "4", "5", "6"], correct: 2 },
+  { q: "Çka është Sadakatu-l-Fitri?", options: ["Zekat i zakonshëm", "Lëmoshë e Bajramit", "Kurban", "Hadije"], correct: 1 },
+  { q: "Sa ditë zgjat agjërimi i Ramazanit?", options: ["28", "29 ose 30", "31", "25"], correct: 1 },
 ];
+
+function speakArabic(text: string) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ar-SA";
+  u.rate = 0.5;
+  window.speechSynthesis.speak(u);
+}
 
 export default function Fikh() {
   const [searchParams] = useSearchParams();
@@ -141,7 +163,7 @@ export default function Fikh() {
         {activeTab === "pastresia" && <PastresiaTab key="pastresia" />}
         {activeTab === "namazi" && <NamaziTab key="namazi" />}
         {activeTab === "agjrimi" && <AgjrimiTab key="agjrimi" />}
-        {activeTab === "zekati" && <ZekatiTab key="zekati" />}
+        {activeTab === "zekati" && <ZekatiTabFull key="zekati" />}
         {activeTab === "duate" && <DuateTab key="duate" />}
         {activeTab === "kuiz" && <KuizTab key="kuiz" />}
       </AnimatePresence>
@@ -192,9 +214,7 @@ function PastresiaTab() {
           </div>
           <div>
             <div className="flex items-center gap-2 mb-0.5">
-              <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
-                {s.step}
-              </span>
+              <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">{s.step}</span>
               <h3 className="font-bold text-foreground text-sm">{s.title}</h3>
             </div>
             <p className="text-sm text-muted-foreground">{s.desc}</p>
@@ -243,9 +263,7 @@ function NamaziTab() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass-card rounded-2xl p-6 space-y-3">
           {namazSteps.map((step, i) => (
             <div key={i} className="flex items-start gap-3">
-              <span className="w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center flex-shrink-0">
-                {i + 1}
-              </span>
+              <span className="w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center flex-shrink-0">{i + 1}</span>
               <p className="text-sm text-foreground/80 pt-1">{step}</p>
             </div>
           ))}
@@ -277,11 +295,11 @@ function AgjrimiTab() {
   );
 }
 
-function ZekatiTab() {
+function ZekatiTabFull() {
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
       <h2 className="text-xl font-bold text-foreground mb-4">💰 Zekati</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
         {zekatInfo.map((z, i) => (
           <div key={i} className="glass-card rounded-2xl p-6">
             <h3 className="font-bold text-primary mb-2">{z.title}</h3>
@@ -289,6 +307,7 @@ function ZekatiTab() {
           </div>
         ))}
       </div>
+      <ZekatiCalculator />
     </motion.div>
   );
 }
@@ -299,7 +318,15 @@ function DuateTab() {
       <h2 className="text-xl font-bold text-foreground mb-4">🌿 Duatë e Përditshme</h2>
       {duate.map((dua, i) => (
         <div key={i} className="glass-card rounded-2xl p-6">
-          <h3 className="font-bold text-primary mb-3">{dua.title}</h3>
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="font-bold text-primary">{dua.title}</h3>
+            <button
+              onClick={() => speakArabic(dua.arabic)}
+              className="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+            >
+              <Volume2 className="w-4 h-4" />
+            </button>
+          </div>
           <p className="text-xl md:text-2xl text-foreground font-arabic text-right leading-loose mb-3" dir="rtl">
             {dua.arabic}
           </p>
@@ -318,34 +345,62 @@ function KuizTab() {
   const [score, setScore] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [finished, setFinished] = useState(false);
+  const [timer, setTimer] = useState(20);
+  const [answers, setAnswers] = useState<boolean[]>([]);
+
+  React.useEffect(() => {
+    if (finished || selected !== null) return;
+    if (timer <= 0) {
+      handleAnswer(-1);
+      return;
+    }
+    const t = setInterval(() => setTimer(p => p - 1), 1000);
+    return () => clearInterval(t);
+  }, [timer, finished, selected]);
 
   const handleAnswer = (idx: number) => {
     if (selected !== null) return;
     setSelected(idx);
-    if (idx === fikhQuiz[current].correct) setScore((s) => s + 1);
+    const correct = idx === fikhQuiz[current].correct;
+    if (correct) setScore((s) => s + 1);
+    setAnswers(a => [...a, correct]);
     setTimeout(() => {
       if (current + 1 < fikhQuiz.length) {
         setCurrent((c) => c + 1);
         setSelected(null);
+        setTimer(20);
       } else {
         setFinished(true);
       }
     }, 1200);
   };
 
+  const restart = () => {
+    setCurrent(0);
+    setScore(0);
+    setSelected(null);
+    setFinished(false);
+    setTimer(20);
+    setAnswers([]);
+  };
+
   if (finished) {
+    const pct = Math.round((score / fikhQuiz.length) * 100);
     return (
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="glass-card rounded-2xl p-8 text-center max-w-md mx-auto">
-        <div className="text-5xl mb-4">{score >= 8 ? "🏆" : score >= 5 ? "👏" : "📚"}</div>
-        <h2 className="text-2xl font-bold text-foreground mb-2">Rezultati: {score}/{fikhQuiz.length}</h2>
-        <p className="text-muted-foreground mb-6">
-          {score >= 8 ? "Shkëlqyeshëm! Ke njohuri shumë të mira." : score >= 5 ? "Mirë! Vazhdo të mësosh." : "Provo përsëri dhe mëso më shumë!"}
+      <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="glass-card rounded-2xl p-8 text-center max-w-md mx-auto">
+        <h2 className="text-2xl font-bold text-foreground mb-2">🏆 Kuizi Përfundoi!</h2>
+        <p className="text-4xl font-extrabold text-primary mb-2">{score}/{fikhQuiz.length}</p>
+        <p className="text-muted-foreground mb-2">{pct}% saktë</p>
+        <div className="flex justify-center gap-1 mb-4 flex-wrap">
+          {answers.map((a, i) => (
+            <div key={i} className={`w-3 h-3 rounded-full ${a ? "bg-green-500" : "bg-red-400"}`} />
+          ))}
+        </div>
+        <p className="text-sm text-muted-foreground mb-4">
+          {pct >= 90 ? "Shkëlqyeshëm! 🌟" : pct >= 70 ? "Shumë mirë! 📚" : pct >= 50 ? "Jo keq, provo përsëri! 💪" : "Mëso më shumë dhe provo përsëri! 📖"}
         </p>
-        <button
-          onClick={() => { setCurrent(0); setScore(0); setSelected(null); setFinished(false); }}
-          className="px-6 py-2.5 rounded-xl bg-primary text-primary-foreground font-medium"
-        >
-          Provo Përsëri
+        <button onClick={restart} className="px-6 py-3 rounded-xl gradient-primary text-primary-foreground font-bold">
+          🔄 Fillo Përsëri
         </button>
       </motion.div>
     );
@@ -353,34 +408,47 @@ function KuizTab() {
 
   const q = fikhQuiz[current];
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="max-w-lg mx-auto">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="max-w-lg mx-auto">
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm text-muted-foreground">Pyetja {current + 1}/{fikhQuiz.length}</span>
-        <span className="text-sm font-bold text-primary">Pikë: {score}</span>
+        <div className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-bold ${
+          timer <= 5 ? "bg-destructive/10 text-destructive animate-pulse" : "bg-primary/10 text-primary"
+        }`}>
+          <Timer className="w-3 h-3" />
+          {timer}s
+        </div>
+        <span className="text-sm font-bold text-primary">✓ {score}</span>
       </div>
       <div className="w-full bg-secondary rounded-full h-2 mb-6">
         <div className="bg-primary h-2 rounded-full transition-all" style={{ width: `${((current + 1) / fikhQuiz.length) * 100}%` }} />
       </div>
-      <div className="glass-card rounded-2xl p-6 mb-4">
-        <h3 className="text-lg font-bold text-foreground">{q.q}</h3>
-      </div>
-      <div className="space-y-3">
-        {q.options.map((opt, i) => {
-          let cls = "glass-card rounded-xl p-4 text-sm font-medium cursor-pointer transition-all hover:shadow-md";
-          if (selected !== null) {
-            if (i === q.correct) cls += " border-2 border-green-500 bg-green-500/10";
-            else if (i === selected) cls += " border-2 border-red-500 bg-red-500/10";
-          }
-          return (
-            <div key={i} className={cls} onClick={() => handleAnswer(i)}>
-              <div className="flex items-center justify-between">
-                <span className="text-foreground/80">{opt}</span>
-                {selected !== null && i === q.correct && <CheckCircle className="w-5 h-5 text-green-500" />}
-                {selected !== null && i === selected && i !== q.correct && <XCircle className="w-5 h-5 text-red-500" />}
-              </div>
-            </div>
-          );
-        })}
+
+      <div className="glass-card rounded-2xl p-6">
+        <h3 className="text-lg font-bold text-foreground mb-6">{q.q}</h3>
+        <div className="space-y-3">
+          {q.options.map((opt, i) => {
+            let cls = "glass-card border border-border text-foreground hover:border-primary/50";
+            if (selected !== null) {
+              if (i === q.correct) cls = "bg-green-500/10 border-green-500 text-green-700";
+              else if (i === selected) cls = "bg-red-500/10 border-red-400 text-red-600";
+            }
+            return (
+              <button
+                key={i}
+                onClick={() => handleAnswer(i)}
+                disabled={selected !== null}
+                className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all flex items-center gap-3 ${cls}`}
+              >
+                <span className="w-7 h-7 shrink-0 rounded-full bg-secondary flex items-center justify-center text-xs font-bold">
+                  {String.fromCharCode(65 + i)}
+                </span>
+                {opt}
+                {selected !== null && i === q.correct && <CheckCircle className="w-4 h-4 ml-auto text-green-600" />}
+                {selected !== null && i === selected && i !== q.correct && <XCircle className="w-4 h-4 ml-auto text-red-500" />}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </motion.div>
   );
