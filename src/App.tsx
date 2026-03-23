@@ -8,6 +8,7 @@ import Index from "./pages/Index.tsx";
 import Alphabet from "./pages/Alphabet.tsx";
 import Quran from "./pages/Quran.tsx";
 import Tajweed from "./pages/Tajweed.tsx";
+import UmraHajj from "./pages/UmraHajj.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/alphabet" element={<Alphabet />} />
             <Route path="/quran" element={<Quran />} />
             <Route path="/tajweed" element={<Tajweed />} />
+            <Route path="/umra-hajj" element={<UmraHajj />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
