@@ -10,6 +10,9 @@ import Quran from "./pages/Quran.tsx";
 import Tajweed from "./pages/Tajweed.tsx";
 import UmraHajj from "./pages/UmraHajj.tsx";
 import Fikh from "./pages/Fikh.tsx";
+import Games from "./pages/Games.tsx";
+import Progress from "./pages/Progress.tsx";
+import Settings from "./pages/Settings.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -28,6 +31,9 @@ const App = () => (
             <Route path="/tajweed" element={<Tajweed />} />
             <Route path="/umra-hajj" element={<UmraHajj />} />
             <Route path="/fikh" element={<Fikh />} />
+            <Route path="/games" element={<Games />} />
+            <Route path="/progress" element={<Progress />} />
+            <Route path="/settings" element={<Settings />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
