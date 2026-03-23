@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BarChart3, BookOpen, Languages, Gamepad2, MapPin, Star, BookMarked, RotateCcw, Trophy, Target, Flame, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import AchievementsView from "@/components/gamification/AchievementsView";
 
 interface ModuleProgress {
   name: string;
@@ -222,8 +223,14 @@ export default function Progress() {
         })}
       </div>
 
+      {/* Achievements */}
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
+        <h2 className="text-lg font-bold text-foreground mb-4">🏆 Arritjet & Medaljet</h2>
+        <AchievementsView />
+      </motion.div>
+
       {/* Recent Activity */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
         <h2 className="text-lg font-bold text-foreground mb-4">📋 Aktiviteti i Fundit</h2>
         <div className="glass-card rounded-2xl divide-y divide-border">
           {activities.map((act, i) => (
