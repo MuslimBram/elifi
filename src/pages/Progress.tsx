@@ -137,6 +137,7 @@ export default function Progress() {
 
   const streak = getStreak();
   const totalQuizzes = getTotalQuizzes();
+  const favCount = (() => { try { const r = localStorage.getItem("elif_favorites"); return r ? JSON.parse(r).length : 0; } catch { return 0; } })();
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
