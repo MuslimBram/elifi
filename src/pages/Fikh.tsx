@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Star, CheckCircle, XCircle, Volume2, Timer } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ZekatiCalculator from "@/components/fikh/ZekatiCalculator";
+import PrayerGuide from "@/components/fikh/PrayerGuide";
 
 const tabs = [
   { id: "akide", label: "🕌 Akide" },
