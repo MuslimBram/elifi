@@ -74,6 +74,8 @@ export default function Alphabet() {
         {activeTab === "germat" && <LettersView language={selectedLang} />}
         {activeTab === "rrokjet" && <SyllablesView language={selectedLang} />}
         {activeTab === "fjalet" && <WordsView language={selectedLang} />}
+        {activeTab === "flashcards" && <FlashcardsView language={selectedLang} />}
+        {activeTab === "vizato" && <DrawingCanvas letter={selectedLang === "arabisht" ? "ا" : "A"} />}
         {activeTab === "zgjedhimi" && <VerbConjugationView />}
         {activeTab === "lakimi" && <NounDeclensionView />}
         {activeTab === "medine" && <MadinahArabicView />}
