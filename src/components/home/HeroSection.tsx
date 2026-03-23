@@ -5,6 +5,8 @@ import { motion } from "framer-motion";
 import PrayerTimesWidget from "@/components/home/PrayerTimesWidget";
 import DailyVerse from "@/components/home/DailyVerse";
 import TriLanguageTranslator from "@/components/home/TriLanguageTranslator";
+import TimeHeaderWidget from "@/components/home/TimeHeaderWidget";
+import QuickStats from "@/components/home/QuickStats";
 
 const learningSections = [
   { title: "🔤 Alfabeti", description: "Mëso germët, numrat dhe rrokjet në 3 gjuhë", gradient: "from-blue-500 to-cyan-500", path: "/alphabet", items: ["Numrat", "Germët", "Rrokjet", "Fjalët", "Zgjedhimi", "Lakimi"] },
@@ -21,14 +23,6 @@ const quickLinks = [
   { name: "Lojëra", path: "/games", icon: Gamepad2, gradient: "from-pink-500 to-rose-500" },
 ];
 
-const quickStatLinks = [
-  { title: "Namazi Hap-pas-Hapi", desc: "Mëso mënyrën e saktë të faljes", emoji: "🤲", path: "/fikh?tab=namazi" },
-  { title: "Duatë e Përditshme", desc: "10 dua me arabisht dhe shqip", emoji: "🌿", path: "/fikh?tab=duate" },
-  { title: "Kur'ani me Tafsir", desc: "Lexo ajete me kuptim shqip", emoji: "📖", path: "/quran" },
-  { title: "Texhuidi i Integruar", desc: "15+ rregulla texhuidi me shembuj", emoji: "🎓", path: "/tajweed" },
-  { title: "Umra & Haxhi", desc: "Udhëzues hap-pas-hapi me dua", emoji: "🕋", path: "/umra-hajj" },
-  { title: "Lojëra Edukative", desc: "30+ kuize me pikë dhe sfida", emoji: "🎮", path: "/games" },
-];
 
 export default function HeroSection() {
   return (
@@ -38,8 +32,13 @@ export default function HeroSection() {
       <div className="absolute bottom-10 left-10 w-56 h-56 bg-accent/10 rounded-full blur-3xl" />
 
       <div className="relative max-w-6xl mx-auto px-4 pt-16 pb-20">
+        {/* Time Header */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl mx-auto mb-6">
+          <TimeHeaderWidget />
+        </motion.div>
+
         {/* Hero text */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="text-center mb-12">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary text-secondary-foreground text-sm font-medium mb-6">✨ Platformë edukative</span>
           <h1 className="text-4xl md:text-6xl font-extrabold text-foreground mb-4 tracking-tight">
             Mirë se vini në <span className="text-gradient">Edukim Interaktiv</span>
@@ -67,16 +66,10 @@ export default function HeroSection() {
           <TriLanguageTranslator />
         </motion.div>
 
-        {/* Quick stat links */}
+        {/* Quick Stats */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-          className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-4xl mx-auto mb-12">
-          {quickStatLinks.map((item, i) => (
-            <Link key={i} to={item.path} className="glass-card rounded-2xl p-4 hover:shadow-lg transition-all hover:-translate-y-1">
-              <span className="text-2xl block mb-2">{item.emoji}</span>
-              <h3 className="font-bold text-foreground text-sm">{item.title}</h3>
-              <p className="text-xs text-muted-foreground">{item.desc}</p>
-            </Link>
-          ))}
+          className="max-w-4xl mx-auto mb-12">
+          <QuickStats />
         </motion.div>
 
         {/* Main learning sections */}
