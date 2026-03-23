@@ -164,6 +164,7 @@ export default function Fikh() {
         {activeTab === "akide" && <AkideTab key="akide" />}
         {activeTab === "pastresia" && <PastresiaTab key="pastresia" />}
         {activeTab === "namazi" && <NamaziTab key="namazi" />}
+        {activeTab === "namazguide" && <PrayerGuide key="namazguide" />}
         {activeTab === "agjrimi" && <AgjrimiTab key="agjrimi" />}
         {activeTab === "zekati" && <ZekatiTabFull key="zekati" />}
         {activeTab === "duate" && <DuateTab key="duate" />}
