@@ -1,12 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Settings as SettingsIcon, Volume2, VolumeX, Moon, Sun, Type, RotateCcw } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Settings() {
-  const [darkMode, setDarkMode] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [fontSize, setFontSize] = useState<"normal" | "large" | "xlarge">("normal");
-  const [language, setLanguage] = useState("shqip");
+  const [darkMode, setDarkMode] = useState(() => {
+    return document.documentElement.classList.contains("dark");
+  });
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    return localStorage.getItem("sound") !== "off";
+  });
+  const [fontSize, setFontSize] = useState<"normal" | "large" | "xlarge">(() => {
+    return (localStorage.getItem("fontSize") as "normal" | "large" | "xlarge") || "normal";
+  });
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem("lang") || "shqip";
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
+
+  useEffect(() => {
+    localStorage.setItem("sound", soundEnabled ? "on" : "off");
+  }, [soundEnabled]);
+
+  useEffect(() => {
+    localStorage.setItem("fontSize", fontSize);
+    const root = document.documentElement;
+    root.style.fontSize = fontSize === "large" ? "18px" : fontSize === "xlarge" ? "20px" : "16px";
+  }, [fontSize]);
+
+  useEffect(() => {
+    localStorage.setItem("lang", language);
+  }, [language]);
+
+  const handleReset = () => {
+    if (confirm("Je i sigurt që dëshiron të fshish progresin?")) {
+      localStorage.clear();
+      setDarkMode(false);
+      setSoundEnabled(true);
+      setFontSize("normal");
+      setLanguage("shqip");
+      document.documentElement.classList.remove("dark");
+      document.documentElement.style.fontSize = "16px";
+    }
+  };
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-10">
@@ -117,7 +160,10 @@ export default function Settings() {
                 <p className="text-xs text-muted-foreground">Fshi të gjitha të dhënat e progresit</p>
               </div>
             </div>
-            <button className="px-4 py-2 rounded-xl bg-red-500/10 text-red-500 text-sm font-medium hover:bg-red-500/20 transition-colors">
+            <button
+              onClick={handleReset}
+              className="px-4 py-2 rounded-xl bg-red-500/10 text-red-500 text-sm font-medium hover:bg-red-500/20 transition-colors"
+            >
               Rivendos
             </button>
           </div>
