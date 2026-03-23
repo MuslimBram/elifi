@@ -153,7 +153,7 @@ export default function Progress() {
 
       {/* Stats row */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-        className="grid grid-cols-3 gap-4 mb-8">
+        className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div className="glass-card rounded-2xl p-5 text-center">
           <Trophy className="w-8 h-8 text-primary mx-auto mb-2" />
           <p className="text-2xl font-bold text-foreground">{totalProgress}%</p>
@@ -168,6 +168,11 @@ export default function Progress() {
           <Target className="w-8 h-8 text-green-500 mx-auto mb-2" />
           <p className="text-2xl font-bold text-foreground">{totalQuizzes}</p>
           <p className="text-xs text-muted-foreground">Kuize përfunduar</p>
+        </div>
+        <div className="glass-card rounded-2xl p-5 text-center">
+          <Heart className="w-8 h-8 text-red-500 mx-auto mb-2" />
+          <p className="text-2xl font-bold text-foreground">{favCount}</p>
+          <p className="text-xs text-muted-foreground">Favorit</p>
         </div>
       </motion.div>
 
