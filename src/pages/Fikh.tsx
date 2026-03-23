@@ -3,11 +3,13 @@ import { useSearchParams } from "react-router-dom";
 import { Star, CheckCircle, XCircle, Volume2, Timer } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ZekatiCalculator from "@/components/fikh/ZekatiCalculator";
+import PrayerGuide from "@/components/fikh/PrayerGuide";
 
 const tabs = [
   { id: "akide", label: "🕌 Akide" },
   { id: "pastresia", label: "💧 Pastërtia" },
   { id: "namazi", label: "🤲 Namazi" },
+  { id: "namazguide", label: "🕌 Udhëzuesi" },
   { id: "agjrimi", label: "🌙 Agjërimi" },
   { id: "zekati", label: "💰 Zekati" },
   { id: "duate", label: "🌿 Duatë" },
@@ -162,6 +164,7 @@ export default function Fikh() {
         {activeTab === "akide" && <AkideTab key="akide" />}
         {activeTab === "pastresia" && <PastresiaTab key="pastresia" />}
         {activeTab === "namazi" && <NamaziTab key="namazi" />}
+        {activeTab === "namazguide" && <PrayerGuide key="namazguide" />}
         {activeTab === "agjrimi" && <AgjrimiTab key="agjrimi" />}
         {activeTab === "zekati" && <ZekatiTabFull key="zekati" />}
         {activeTab === "duate" && <DuateTab key="duate" />}

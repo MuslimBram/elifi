@@ -3,6 +3,8 @@ import React from "react";
 const TABS = [
   { id: "suret", label: "Suret", icon: "📖" },
   { id: "hadithe", label: "Hadithe", icon: "📚" },
+  { id: "rijadu", label: "Rijadu Es-Salihin", icon: "📗" },
+  { id: "tefsir", label: "Tefsir", icon: "📜" },
   { id: "quiz", label: "Kuiz", icon: "🎯" },
   { id: "progress", label: "Progresi", icon: "📊" },
   { id: "sevapet", label: "Sevapet", icon: "✨" },
