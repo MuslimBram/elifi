@@ -193,6 +193,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <button
             className="lg:hidden p-2 rounded-xl hover:bg-secondary transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Mbyll menynë" : "Hap menynë"}
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X className="w-5 h-5 text-foreground/70" /> : <Menu className="w-5 h-5 text-foreground/70" />}
           </button>
