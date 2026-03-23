@@ -27,6 +27,7 @@ const App = () => (
             <Route path="/quran" element={<Quran />} />
             <Route path="/tajweed" element={<Tajweed />} />
             <Route path="/umra-hajj" element={<UmraHajj />} />
+            <Route path="/fikh" element={<Fikh />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
