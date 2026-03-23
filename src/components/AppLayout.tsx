@@ -50,8 +50,9 @@ const navItems = [
     children: [
       { name: "🕋 Umra — Hapat", path: "/umra-hajj?tab=umra" },
       { name: "🏔️ Haxhi — Hapat", path: "/umra-hajj?tab=haxhi" },
-      { name: "🗺️ Hartë 3D", path: "/umra-hajj?tab=harta" },
+      { name: "🗺️ Vendet e Shenjta", path: "/umra-hajj?tab=vendet" },
       { name: "📖 Duatë e Umras", path: "/umra-hajj?tab=duate" },
+      { name: "🎯 Kuiz", path: "/umra-hajj?tab=kuiz" },
     ],
   },
   {
