@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Languages } from "lucide-react";
 import { motion } from "framer-motion";
 import AlphabetTabs from "@/components/alphabet/AlphabetTabs";
+import LettersView from "@/components/alphabet/LettersView";
 import NumberLearningView from "@/components/alphabet/NumberLearningView";
 import SyllablesView from "@/components/alphabet/SyllablesView";
 import WordsView from "@/components/alphabet/WordsView";
