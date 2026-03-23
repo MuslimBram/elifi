@@ -36,6 +36,8 @@ export default function Quran() {
       <div className="mt-8">
         {activeTab === "suret" && <SuretView />}
         {activeTab === "hadithe" && <HaditheSahihe />}
+        {activeTab === "rijadu" && <RiyaduSalihin />}
+        {activeTab === "tefsir" && <TefsirDijetaresh />}
         {activeTab === "quiz" && <QuranQuizView />}
         {activeTab === "progress" && <QuranProgressView />}
         {activeTab === "sevapet" && <SevapetView />}
