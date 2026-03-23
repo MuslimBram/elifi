@@ -377,6 +377,7 @@ export default function SuretView() {
                 className="p-1.5 rounded-full hover:bg-primary/10 transition-colors"
               >
                 <Share2 className="w-4 h-4 text-muted-foreground" />
+              </button>
               <button
                 onClick={(e) => { e.stopPropagation(); togglePlay(surah.number, surah.audioUrl); }}
                 className="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
