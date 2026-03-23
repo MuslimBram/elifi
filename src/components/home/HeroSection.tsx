@@ -40,8 +40,13 @@ export default function HeroSection() {
       <div className="absolute bottom-10 left-10 w-56 h-56 bg-accent/10 rounded-full blur-3xl" />
 
       <div className="relative max-w-6xl mx-auto px-4 pt-16 pb-20">
+        {/* Time Header */}
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl mx-auto mb-6">
+          <TimeHeaderWidget />
+        </motion.div>
+
         {/* Hero text */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }} className="text-center mb-12">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary text-secondary-foreground text-sm font-medium mb-6">✨ Platformë edukative</span>
           <h1 className="text-4xl md:text-6xl font-extrabold text-foreground mb-4 tracking-tight">
             Mirë se vini në <span className="text-gradient">Edukim Interaktiv</span>
