@@ -6,6 +6,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import AppLayout from "@/components/AppLayout";
 import Index from "./pages/Index.tsx";
 import Alphabet from "./pages/Alphabet.tsx";
+import Quran from "./pages/Quran.tsx";
+import Tajweed from "./pages/Tajweed.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -20,6 +22,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/alphabet" element={<Alphabet />} />
+            <Route path="/quran" element={<Quran />} />
+            <Route path="/tajweed" element={<Tajweed />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
