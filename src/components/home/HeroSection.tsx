@@ -66,16 +66,10 @@ export default function HeroSection() {
           <TriLanguageTranslator />
         </motion.div>
 
-        {/* Quick stat links */}
+        {/* Quick Stats */}
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-          className="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-4xl mx-auto mb-12">
-          {quickStatLinks.map((item, i) => (
-            <Link key={i} to={item.path} className="glass-card rounded-2xl p-4 hover:shadow-lg transition-all hover:-translate-y-1">
-              <span className="text-2xl block mb-2">{item.emoji}</span>
-              <h3 className="font-bold text-foreground text-sm">{item.title}</h3>
-              <p className="text-xs text-muted-foreground">{item.desc}</p>
-            </Link>
-          ))}
+          className="max-w-4xl mx-auto mb-12">
+          <QuickStats />
         </motion.div>
 
         {/* Main learning sections */}
