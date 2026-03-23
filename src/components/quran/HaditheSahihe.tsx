@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, Volume2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Volume2, Heart } from "lucide-react";
+import { useFavorites } from "@/hooks/useFavorites";
 
 interface Hadith {
   arabic: string;
@@ -67,6 +68,7 @@ function speak(text: string) {
 export default function HaditheSahihe() {
   const [expandedCollection, setExpandedCollection] = useState(0);
   const [expandedHadith, setExpandedHadith] = useState<number | null>(null);
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   return (
     <div className="space-y-6">
@@ -97,9 +99,15 @@ export default function HaditheSahihe() {
                     <div key={hi} className="bg-secondary/30 rounded-xl p-4">
                       <div className="flex items-start justify-between gap-3 mb-2">
                         <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full font-medium">{h.topic}</span>
-                        <button onClick={() => speak(h.arabic)} className="p-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20">
-                          <Volume2 className="w-3.5 h-3.5" />
-                        </button>
+                        <div className="flex items-center gap-1.5">
+                          <button onClick={() => toggleFavorite({ id: `hadith-${ci}-${hi}`, type: "hadith", title: h.text, arabic: h.arabic, translation: h.source })}
+                            className="p-1.5 rounded-lg hover:bg-primary/10 transition-colors">
+                            <Heart className={`w-3.5 h-3.5 ${isFavorite(`hadith-${ci}-${hi}`) ? "fill-red-500 text-red-500" : "text-muted-foreground"}`} />
+                          </button>
+                          <button onClick={() => speak(h.arabic)} className="p-1.5 rounded-lg bg-primary/10 text-primary hover:bg-primary/20">
+                            <Volume2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                       </div>
                       <p className="text-xl text-foreground text-right leading-loose mb-3" dir="rtl">{h.arabic}</p>
                       <p className="text-sm font-medium text-foreground mb-1">"{h.text}"</p>

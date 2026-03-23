@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
+import { updateDailyStreak } from "./hooks/useStreak";
 
 // Apply saved theme on load
 if (localStorage.getItem("theme") === "dark") {
@@ -11,5 +12,8 @@ if (localStorage.getItem("theme") === "dark") {
 const savedFontSize = localStorage.getItem("fontSize");
 if (savedFontSize === "large") document.documentElement.style.fontSize = "18px";
 else if (savedFontSize === "xlarge") document.documentElement.style.fontSize = "20px";
+
+// Update daily streak on each visit
+updateDailyStreak();
 
 createRoot(document.getElementById("root")!).render(<App />);
