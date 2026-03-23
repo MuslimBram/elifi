@@ -22,12 +22,13 @@ const navItems = [
     path: "/alphabet",
     icon: Languages,
     children: [
-      { name: "Numrat", path: "/alphabet?tab=numrat" },
       { name: "Germët", path: "/alphabet?tab=germat" },
+      { name: "Numrat", path: "/alphabet?tab=numrat" },
       { name: "Rrokjet", path: "/alphabet?tab=rrokjet" },
       { name: "Fjalët", path: "/alphabet?tab=fjalet" },
       { name: "Zgjedhimi", path: "/alphabet?tab=zgjedhimi" },
       { name: "Lakimi", path: "/alphabet?tab=lakimi" },
+      { name: "Arabisht Medinë", path: "/alphabet?tab=medine" },
     ],
   },
   {
