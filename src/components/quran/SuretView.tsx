@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, BookOpen, ChevronDown, ChevronUp, Volume2, Search } from "lucide-react";
+import { Play, Pause, BookOpen, ChevronDown, ChevronUp, Volume2, Search, Heart } from "lucide-react";
 import SurahAudioPlayer from "@/components/quran/SurahAudioPlayer";
+import { useFavorites } from "@/hooks/useFavorites";
 
 interface Surah {
   number: number;
