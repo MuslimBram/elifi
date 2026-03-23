@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import AppLayout from "@/components/AppLayout";
 import PointsToast from "@/components/gamification/PointsToast";
+import OnboardingModal from "@/components/gamification/OnboardingModal";
 import Index from "./pages/Index.tsx";
 import Alphabet from "./pages/Alphabet.tsx";
 import Quran from "./pages/Quran.tsx";
@@ -25,6 +26,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <PointsToast />
+      <OnboardingModal />
       <BrowserRouter>
         <AppLayout>
           <Routes>

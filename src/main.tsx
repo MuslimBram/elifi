@@ -16,4 +16,11 @@ else if (savedFontSize === "xlarge") document.documentElement.style.fontSize = "
 // Update daily streak on each visit
 updateDailyStreak();
 
+// Register service worker
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js").catch(() => {});
+  });
+}
+
 createRoot(document.getElementById("root")!).render(<App />);
