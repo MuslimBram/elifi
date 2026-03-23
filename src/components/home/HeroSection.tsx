@@ -23,14 +23,6 @@ const quickLinks = [
   { name: "Lojëra", path: "/games", icon: Gamepad2, gradient: "from-pink-500 to-rose-500" },
 ];
 
-const quickStatLinks = [
-  { title: "Namazi Hap-pas-Hapi", desc: "Mëso mënyrën e saktë të faljes", emoji: "🤲", path: "/fikh?tab=namazi" },
-  { title: "Duatë e Përditshme", desc: "10 dua me arabisht dhe shqip", emoji: "🌿", path: "/fikh?tab=duate" },
-  { title: "Kur'ani me Tafsir", desc: "Lexo ajete me kuptim shqip", emoji: "📖", path: "/quran" },
-  { title: "Texhuidi i Integruar", desc: "15+ rregulla texhuidi me shembuj", emoji: "🎓", path: "/tajweed" },
-  { title: "Umra & Haxhi", desc: "Udhëzues hap-pas-hapi me dua", emoji: "🕋", path: "/umra-hajj" },
-  { title: "Lojëra Edukative", desc: "30+ kuize me pikë dhe sfida", emoji: "🎮", path: "/games" },
-];
 
 export default function HeroSection() {
   return (
