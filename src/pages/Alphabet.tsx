@@ -7,6 +7,8 @@ import LettersView from "@/components/alphabet/LettersView";
 import NumberLearningView from "@/components/alphabet/NumberLearningView";
 import SyllablesView from "@/components/alphabet/SyllablesView";
 import WordsView from "@/components/alphabet/WordsView";
+import FlashcardsView from "@/components/alphabet/FlashcardsView";
+import DrawingCanvas from "@/components/alphabet/DrawingCanvas";
 import VerbConjugationView from "@/components/alphabet/VerbConjugationView";
 import NounDeclensionView from "@/components/alphabet/NounDeclensionView";
 import MadinahArabicView from "@/components/alphabet/MadinahArabicView";
