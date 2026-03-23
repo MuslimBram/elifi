@@ -13,6 +13,7 @@ import {
   BarChart3,
   ChevronDown,
   Star,
+  Heart,
 } from "lucide-react";
 
 const navItems = [
