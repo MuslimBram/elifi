@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { Languages } from "lucide-react";
 import { motion } from "framer-motion";
 import AlphabetTabs from "@/components/alphabet/AlphabetTabs";
+import LettersView from "@/components/alphabet/LettersView";
 import NumberLearningView from "@/components/alphabet/NumberLearningView";
 import SyllablesView from "@/components/alphabet/SyllablesView";
 import WordsView from "@/components/alphabet/WordsView";
@@ -68,15 +69,7 @@ export default function Alphabet() {
 
       <div className="mt-6">
         {activeTab === "numrat" && <NumberLearningView language={selectedLang} />}
-        {activeTab === "germat" && (
-          <div className="glass-card rounded-2xl p-8 text-center">
-            <Languages className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-            <p className="text-foreground text-lg font-medium">Germët — Së shpejti!</p>
-            <p className="text-muted-foreground text-sm mt-1">
-              Mësimi i germave me vizatim, shqiptim dhe kuiz do të shtohet së shpejti.
-            </p>
-          </div>
-        )}
+        {activeTab === "germat" && <LettersView language={selectedLang} />}
         {activeTab === "rrokjet" && <SyllablesView language={selectedLang} />}
         {activeTab === "fjalet" && <WordsView language={selectedLang} />}
         {activeTab === "zgjedhimi" && <VerbConjugationView />}
