@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import GlobalSearch from "@/components/ui/GlobalSearch";
 import {
   Home,
   BookOpen,
