@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, BookOpen, ChevronDown, ChevronUp, Volume2, Search } from "lucide-react";
+import { Play, Pause, BookOpen, ChevronDown, ChevronUp, Volume2, Search, Heart } from "lucide-react";
 import SurahAudioPlayer from "@/components/quran/SurahAudioPlayer";
+import { useFavorites } from "@/hooks/useFavorites";
 
 interface Surah {
   number: number;
@@ -299,6 +300,7 @@ export default function SuretView() {
   const [playingAudio, setPlayingAudio] = useState<number | null>(null);
   const [audioRef] = useState<HTMLAudioElement>(new Audio());
   const [searchQuery, setSearchQuery] = useState("");
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const togglePlay = (surahNum: number, url: string) => {
     if (playingAudio === surahNum) {
@@ -357,8 +359,14 @@ export default function SuretView() {
                 <p className="text-xs text-muted-foreground">{surah.meaning} • {surah.verses} ajete • {surah.type}</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <span className="text-xl font-arabic text-primary" dir="rtl">{surah.arabicName}</span>
+              <button
+                onClick={(e) => { e.stopPropagation(); toggleFavorite({ id: `surah-${surah.number}`, type: "surah", title: surah.name, arabic: surah.arabicName }); }}
+                className="p-1.5 rounded-full hover:bg-primary/10 transition-colors"
+              >
+                <Heart className={`w-4 h-4 ${isFavorite(`surah-${surah.number}`) ? "fill-red-500 text-red-500" : "text-muted-foreground"}`} />
+              </button>
               <button
                 onClick={(e) => { e.stopPropagation(); togglePlay(surah.number, surah.audioUrl); }}
                 className="p-2 rounded-full bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
