@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, BookOpen, ChevronDown, ChevronUp, Volume2, Search, Heart } from "lucide-react";
+import { Play, Pause, BookOpen, ChevronDown, ChevronUp, Volume2, Search, Heart, Share2 } from "lucide-react";
 import SurahAudioPlayer from "@/components/quran/SurahAudioPlayer";
 import { useFavorites } from "@/hooks/useFavorites";
 
@@ -366,6 +366,17 @@ export default function SuretView() {
                 className="p-1.5 rounded-full hover:bg-primary/10 transition-colors"
               >
                 <Heart className={`w-4 h-4 ${isFavorite(`surah-${surah.number}`) ? "fill-red-500 text-red-500" : "text-muted-foreground"}`} />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (navigator.share) {
+                    navigator.share({ title: `Sure ${surah.name}`, text: `${surah.arabicName} — ${surah.name} | Elif Edukim Interaktiv`, url: window.location.origin + "/quran" });
+                  }
+                }}
+                className="p-1.5 rounded-full hover:bg-primary/10 transition-colors"
+              >
+                <Share2 className="w-4 h-4 text-muted-foreground" />
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); togglePlay(surah.number, surah.audioUrl); }}

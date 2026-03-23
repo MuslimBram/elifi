@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 import {
   Home,
   BookOpen,
@@ -258,12 +259,50 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       {/* Content */}
       <main className="min-h-[calc(100vh-4rem)]">{children}</main>
 
+      <ScrollToTop />
+
       {/* Footer */}
-      <footer className="border-t border-border bg-card/60 backdrop-blur-sm py-6">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-primary text-sm">
-            © 2026 Edukim Interaktiv — Platformë edukative për alfabetin, texhuidin dhe Kuranin
-          </p>
+      <footer className="border-t border-border bg-card/60 backdrop-blur-sm py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
+            <div>
+              <h4 className="font-bold text-foreground text-sm mb-3">📚 Mësime</h4>
+              <div className="space-y-1.5">
+                <Link to="/alphabet" className="block text-xs text-muted-foreground hover:text-primary transition-colors">Alfabeti</Link>
+                <Link to="/quran" className="block text-xs text-muted-foreground hover:text-primary transition-colors">Kur'ani</Link>
+                <Link to="/tajweed" className="block text-xs text-muted-foreground hover:text-primary transition-colors">Texhuidi</Link>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-bold text-foreground text-sm mb-3">🕌 Islami</h4>
+              <div className="space-y-1.5">
+                <Link to="/fikh" className="block text-xs text-muted-foreground hover:text-primary transition-colors">Fikh Elementar</Link>
+                <Link to="/umra-hajj" className="block text-xs text-muted-foreground hover:text-primary transition-colors">Umra & Haxhi</Link>
+                <Link to="/fikh?tab=duate" className="block text-xs text-muted-foreground hover:text-primary transition-colors">Duatë</Link>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-bold text-foreground text-sm mb-3">🎮 Aktivitete</h4>
+              <div className="space-y-1.5">
+                <Link to="/games" className="block text-xs text-muted-foreground hover:text-primary transition-colors">Lojëra</Link>
+                <Link to="/progress" className="block text-xs text-muted-foreground hover:text-primary transition-colors">Progresi</Link>
+                <Link to="/favorites" className="block text-xs text-muted-foreground hover:text-primary transition-colors">Favoritët</Link>
+              </div>
+            </div>
+            <div>
+              <h4 className="font-bold text-foreground text-sm mb-3">⚙️ Tjera</h4>
+              <div className="space-y-1.5">
+                <Link to="/settings" className="block text-xs text-muted-foreground hover:text-primary transition-colors">Cilësimet</Link>
+                <a href="https://elifi.lovable.app" className="block text-xs text-muted-foreground hover:text-primary transition-colors">elifi.lovable.app</a>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-border pt-4 text-center">
+            <p className="text-primary text-sm font-medium">
+              © 2026 Elif — Edukim Interaktiv
+            </p>
+            <p className="text-[11px] text-muted-foreground mt-1">Platformë edukative islame interaktive 🌿</p>
+          </div>
         </div>
       </footer>
     </div>
