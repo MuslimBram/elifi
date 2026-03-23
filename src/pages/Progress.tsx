@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BarChart3, BookOpen, Languages, Gamepad2, MapPin, Star, BookMarked, RotateCcw, Trophy, Target, Flame, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import AchievementsView from "@/components/gamification/AchievementsView";
 
 interface ModuleProgress {
   name: string;
