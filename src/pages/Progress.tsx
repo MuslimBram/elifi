@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BarChart3, BookOpen, Languages, Gamepad2, MapPin, Star, BookMarked, RotateCcw, Trophy, Target, Flame } from "lucide-react";
+import { BarChart3, BookOpen, Languages, Gamepad2, MapPin, Star, BookMarked, RotateCcw, Trophy, Target, Flame, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -137,6 +137,7 @@ export default function Progress() {
 
   const streak = getStreak();
   const totalQuizzes = getTotalQuizzes();
+  const favCount = (() => { try { const r = localStorage.getItem("elif_favorites"); return r ? JSON.parse(r).length : 0; } catch { return 0; } })();
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
@@ -152,7 +153,7 @@ export default function Progress() {
 
       {/* Stats row */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-        className="grid grid-cols-3 gap-4 mb-8">
+        className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div className="glass-card rounded-2xl p-5 text-center">
           <Trophy className="w-8 h-8 text-primary mx-auto mb-2" />
           <p className="text-2xl font-bold text-foreground">{totalProgress}%</p>
@@ -167,6 +168,11 @@ export default function Progress() {
           <Target className="w-8 h-8 text-green-500 mx-auto mb-2" />
           <p className="text-2xl font-bold text-foreground">{totalQuizzes}</p>
           <p className="text-xs text-muted-foreground">Kuize përfunduar</p>
+        </div>
+        <div className="glass-card rounded-2xl p-5 text-center">
+          <Heart className="w-8 h-8 text-red-500 mx-auto mb-2" />
+          <p className="text-2xl font-bold text-foreground">{favCount}</p>
+          <p className="text-xs text-muted-foreground">Favorit</p>
         </div>
       </motion.div>
 
