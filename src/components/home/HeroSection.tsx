@@ -7,6 +7,7 @@ import DailyVerse from "@/components/home/DailyVerse";
 import TriLanguageTranslator from "@/components/home/TriLanguageTranslator";
 import TimeHeaderWidget from "@/components/home/TimeHeaderWidget";
 import QuickStats from "@/components/home/QuickStats";
+import WordOfTheDay from "@/components/home/WordOfTheDay";
 
 const learningSections = [
   { title: "🔤 Alfabeti", description: "Mëso germët, numrat dhe rrokjet në 3 gjuhë", gradient: "from-blue-500 to-cyan-500", path: "/alphabet", items: ["Numrat", "Germët", "Rrokjet", "Fjalët", "Zgjedhimi", "Lakimi"] },
@@ -57,6 +58,7 @@ export default function HeroSection() {
           <PrayerTimesWidget />
           <div className="space-y-6">
             <DailyVerse />
+            <WordOfTheDay />
           </div>
         </motion.div>
 

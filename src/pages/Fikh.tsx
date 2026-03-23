@@ -78,16 +78,31 @@ const zekatInfo = [
 
 /* ─── DUATË ─── */
 const duate = [
-  { title: "Duaja para ngrënies", arabic: "بِسْمِ اللَّهِ", trans: "Bismilah", meaning: "Me emrin e Allahut." },
-  { title: "Duaja pas ngrënies", arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلاَ قُوَّةٍ", trans: "Elhamdu lil-lahil-ledhi at'ameni hadha ve razekanihi min gajri havlin minni ve la kuvveh", meaning: "Lavdërimi i takon Allahut që më ushqeu me këtë dhe ma furnizoi pa fuqi e forcë nga ana ime." },
-  { title: "Duaja para gjumit", arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", trans: "Bismike Allahumme emutu ve ahja", meaning: "Me emrin Tënd, o Allah, vdes dhe jetoj." },
-  { title: "Duaja e zgjimit", arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", trans: "Elhamdu lil-lahil-ledhi ahjana ba'de ma ematena ve ilejhin-nushur", meaning: "Lavdërimi i takon Allahut që na ringjalli pasi na bëri të vdekur, dhe tek Ai është kthimi." },
-  { title: "Duaja e hyrjes në xhami", arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", trans: "Allahummeftah li ebvabe rahmetik", meaning: "O Allah, m'i hap dyert e mëshirës Sate." },
-  { title: "Duaja e daljes nga xhaminë", arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ", trans: "Allahumme inni es'eluke min fadlik", meaning: "O Allah, të lutem nga mirësia Jote." },
-  { title: "Duaja e udhëtimit", arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ", trans: "Subhanel-ledhi sehhare lena hadha ve ma kunna lehu mukrinin", meaning: "I Lartësuar është Ai që na nënshtroi këtë, dhe ne nuk do kishim mundur ta bënim." },
-  { title: "Istigfari", arabic: "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ", trans: "Estagfirullahel-adhim el-ledhi la ilahe il-la huvel-hajjul-kajjum ve etubu ilejh", meaning: "I kërkoj falje Allahut të Madhërishëm, përveç të Cilit nuk ka zot tjetër, i Gjalli, Mbikëqyrësi, dhe pendohem tek Ai." },
-  { title: "Duaja e hyrjes në shtëpi", arabic: "بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَى رَبِّنَا تَوَكَّلْنَا", trans: "Bismil-lahi velexhna ve bismil-lahi harexhna ve ala Rabbina tevekkelna", meaning: "Me emrin e Allahut hymë, me emrin e Allahut dalim, dhe tek Zoti ynë mbështetemi." },
-  { title: "Duaja kur bie shi", arabic: "اللَّهُمَّ صَيِّبًا نَافِعًا", trans: "Allahumme sajjiben nafi'an", meaning: "O Allah, bëje shi të dobishëm!" },
+  { title: "Duaja para ngrënies", arabic: "بِسْمِ اللَّهِ", trans: "Bismilah", meaning: "Me emrin e Allahut.", category: "ushqim" },
+  { title: "Duaja pas ngrënies", arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلاَ قُوَّةٍ", trans: "Elhamdu lil-lahil-ledhi at'ameni hadha ve razekanihi min gajri havlin minni ve la kuvveh", meaning: "Lavdërimi i takon Allahut që më ushqeu me këtë dhe ma furnizoi pa fuqi e forcë nga ana ime.", category: "ushqim" },
+  { title: "Duaja para gjumit", arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", trans: "Bismike Allahumme emutu ve ahja", meaning: "Me emrin Tënd, o Allah, vdes dhe jetoj.", category: "gjumi" },
+  { title: "Duaja e zgjimit", arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", trans: "Elhamdu lil-lahil-ledhi ahjana ba'de ma ematena ve ilejhin-nushur", meaning: "Lavdërimi i takon Allahut që na ringjalli pasi na bëri të vdekur, dhe tek Ai është kthimi.", category: "gjumi" },
+  { title: "Duaja e hyrjes në xhami", arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", trans: "Allahummeftah li ebvabe rahmetik", meaning: "O Allah, m'i hap dyert e mëshirës Sate.", category: "xhami" },
+  { title: "Duaja e daljes nga xhaminë", arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ", trans: "Allahumme inni es'eluke min fadlik", meaning: "O Allah, të lutem nga mirësia Jote.", category: "xhami" },
+  { title: "Duaja e udhëtimit", arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ", trans: "Subhanel-ledhi sehhare lena hadha ve ma kunna lehu mukrinin", meaning: "I Lartësuar është Ai që na nënshtroi këtë, dhe ne nuk do kishim mundur ta bënim.", category: "udhetim" },
+  { title: "Istigfari", arabic: "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ", trans: "Estagfirullahel-adhim el-ledhi la ilahe il-la huvel-hajjul-kajjum ve etubu ilejh", meaning: "I kërkoj falje Allahut të Madhërishëm, përveç të Cilit nuk ka zot tjetër, i Gjalli, Mbikëqyrësi, dhe pendohem tek Ai.", category: "dhikr" },
+  { title: "Duaja e hyrjes në shtëpi", arabic: "بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَى رَبِّنَا تَوَكَّلْنَا", trans: "Bismil-lahi velexhna ve bismil-lahi harexhna ve ala Rabbina tevekkelna", meaning: "Me emrin e Allahut hymë, me emrin e Allahut dalim, dhe tek Zoti ynë mbështetemi.", category: "shtepi" },
+  { title: "Duaja kur bie shi", arabic: "اللَّهُمَّ صَيِّبًا نَافِعًا", trans: "Allahumme sajjiben nafi'an", meaning: "O Allah, bëje shi të dobishëm!", category: "natyra" },
+  { title: "Duaja kur dëgjon bubullimën", arabic: "سُبْحَانَ الَّذِي يُسَبِّحُ الرَّعْدُ بِحَمْدِهِ وَالْمَلاَئِكَةُ مِنْ خِيفَتِهِ", trans: "Subhanel-ledhi juseb-bihur-ra'du bihamdihi vel-melaaiketu min khifetihi", meaning: "I Lartësuar është Ai të Cilit ia bën tesbih bubullima dhe engjëjt nga frika ndaj Tij.", category: "natyra" },
+  { title: "Duaja e veshjes së rrobës", arabic: "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ", trans: "Elhamdu lil-lahil-ledhi kesani hadha ve razekanihi", meaning: "Lavdërimi i takon Allahut që më veshi me këtë dhe ma furnizoi.", category: "shtepi" },
+  { title: "Duaja para abdesit", arabic: "بِسْمِ اللَّهِ", trans: "Bismilah", meaning: "Me emrin e Allahut (para fillimit të abdesit).", category: "namaz" },
+  { title: "Duaja pas abdesit", arabic: "أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ", trans: "Esh-hedu en la ilahe il-lAllah vahdahu la sherike leh ve esh-hedu enne Muhammeden abduhu ve resuluhu", meaning: "Dëshmoj se nuk ka zot tjetër përveç Allahut, Një e pa shok, dhe dëshmoj se Muhamedi është robi dhe i dërguari i Tij.", category: "namaz" },
+  { title: "Duaja e brengosjes", arabic: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", trans: "La ilahe il-la ente subhaneke inni kuntu minez-dhalimin", meaning: "Nuk ka zot përveç Teje! I Lartësuar je! Me të vërtetë, unë isha prej zullumqarëve.", category: "sprova" },
+  { title: "Duaja kur frikësohesh", arabic: "اللَّهُمَّ إِنَّا نَجْعَلُكَ فِي نُحُورِهِمْ وَنَعُوذُ بِكَ مِنْ شُرُورِهِمْ", trans: "Allahumme inna nexh'aluke fi nuhurihim ve ne'udhu bike min shururihim", meaning: "O Allah, Ty të vendosim para tyre dhe kërkojmë mbrojtje nga e keqja e tyre.", category: "sprova" },
+  { title: "Duaja e pasqyrës", arabic: "اللَّهُمَّ أَنْتَ حَسَّنْتَ خَلْقِي فَحَسِّنْ خُلُقِي", trans: "Allahumme ente hassente khalki fehassin khuluki", meaning: "O Allah, Ti e bëre të bukur pamjen time, bëje të bukur edhe moralin tim.", category: "shtepi" },
+  { title: "Duaja e hyrjes në tualet", arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ", trans: "Allahumme inni e'udhu bike minel-khubuthi vel-khabaith", meaning: "O Allah, kërkoj mbrojtje nga shejtanët meshkuj dhe femra.", category: "shtepi" },
+  { title: "Duaja e daljes nga tualeti", arabic: "غُفْرَانَكَ", trans: "Ghufraneke", meaning: "Kërkoj faljen Tënde.", category: "shtepi" },
+  { title: "Seyyidul Istigfar", arabic: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ", trans: "Allahumme ente Rabbi la ilahe il-la ente khalakteni ve ene abduk...", meaning: "O Allah, Ti je Zoti im, nuk ka zot tjetër përveç Teje, Ti më krijove dhe unë jam robi Yt...", category: "dhikr" },
+  { title: "Duaja kur shikon hënën e re", arabic: "اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْيُمْنِ وَالْإِيمَانِ وَالسَّلَامَةِ وَالْإِسْلَامِ", trans: "Allahumme ehillehu alejna bil-jumni vel-imani ves-selameti vel-islam", meaning: "O Allah, na e shfaq me begati, besim, siguri dhe Islam!", category: "natyra" },
+  { title: "Duaja e sëmundjes", arabic: "اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ اشْفِ أَنْتَ الشَّافِي", trans: "Allahumme Rabben-nasi edh-hibil-be'se ishfi entes-shafi", meaning: "O Allah, Zoti i njerëzve, largo vuajtjen, shëro — Ti je Shëruesi.", category: "sprova" },
+  { title: "Duaja për prindërit", arabic: "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا", trans: "Rabbir-hamhuma kema rabbejaani saghira", meaning: "Zoti im, mëshiroi ata siç më rritën kur isha i vogël.", category: "familje" },
+  { title: "Duaja e mëngjesit", arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ", trans: "Esbahna ve esbahal-mulku lillah", meaning: "Gdhirëm dhe sundimi i përket Allahut.", category: "dhikr" },
+  { title: "Duaja e mbrëmjes", arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ", trans: "Emsejna ve emsel-mulku lillah", meaning: "Ngrysëm dhe sundimi i përket Allahut.", category: "dhikr" },
 ];
 
 /* ─── KUIZ ─── */
@@ -315,11 +330,37 @@ function ZekatiTabFull() {
   );
 }
 
+const DUA_CATEGORIES = [
+  { value: "te_gjitha", label: "🌟 Të Gjitha" },
+  { value: "ushqim", label: "🍽️ Ushqimi" },
+  { value: "gjumi", label: "🛏️ Gjumi" },
+  { value: "xhami", label: "🕌 Xhamia" },
+  { value: "namaz", label: "🤲 Namazi" },
+  { value: "shtepi", label: "🏠 Shtëpia" },
+  { value: "udhetim", label: "✈️ Udhëtimi" },
+  { value: "dhikr", label: "📿 Dhikri" },
+  { value: "sprova", label: "💪 Sprovat" },
+  { value: "natyra", label: "🌿 Natyra" },
+  { value: "familje", label: "👨‍👩‍👧 Familja" },
+];
+
 function DuateTab() {
+  const [category, setCategory] = React.useState("te_gjitha");
+  const filtered = category === "te_gjitha" ? duate : duate.filter(d => d.category === category);
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-5">
-      <h2 className="text-xl font-bold text-foreground mb-4">🌿 Duatë e Përditshme</h2>
-      {duate.map((dua, i) => (
+      <h2 className="text-xl font-bold text-foreground mb-2">🌿 Duatë e Përditshme ({duate.length})</h2>
+      <div className="flex flex-wrap gap-2 mb-4">
+        {DUA_CATEGORIES.map(c => (
+          <button key={c.value} onClick={() => setCategory(c.value)}
+            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+              category === c.value ? "bg-primary text-primary-foreground shadow-md" : "bg-card border border-border text-foreground/70 hover:border-primary/50"
+            }`}>{c.label}</button>
+        ))}
+      </div>
+      <p className="text-xs text-muted-foreground">{filtered.length} dua</p>
+      {filtered.map((dua, i) => (
         <div key={i} className="glass-card rounded-2xl p-6">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-bold text-primary">{dua.title}</h3>
