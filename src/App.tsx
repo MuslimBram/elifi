@@ -26,6 +26,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <PointsToast />
+      <OnboardingModal />
       <BrowserRouter>
         <AppLayout>
           <Routes>
