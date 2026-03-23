@@ -312,6 +312,9 @@ export default function SuretView() {
                 className="border-t border-border"
               >
                 <div className="p-4 space-y-4">
+                  {/* Audio Player */}
+                  <SurahAudioPlayer surahNum={surah.number} surahName={surah.name} totalVerses={surah.ayahs.length} />
+                  
                   {surah.ayahs.map((ayah) => (
                     <div key={ayah.number} className="flex gap-4 p-3 rounded-xl bg-secondary/20">
                       <div className="flex flex-col items-center gap-2">
