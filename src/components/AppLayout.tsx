@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import GlobalSearch from "@/components/ui/GlobalSearch";
 import {
   Home,
   BookOpen,
@@ -164,6 +165,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
+            <GlobalSearch />
             {navItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
@@ -191,6 +193,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <button
             className="lg:hidden p-2 rounded-xl hover:bg-secondary transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Mbyll menynë" : "Hap menynë"}
+            aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X className="w-5 h-5 text-foreground/70" /> : <Menu className="w-5 h-5 text-foreground/70" />}
           </button>
