@@ -31,6 +31,9 @@ const App = () => (
             <Route path="/tajweed" element={<Tajweed />} />
             <Route path="/umra-hajj" element={<UmraHajj />} />
             <Route path="/fikh" element={<Fikh />} />
+            <Route path="/games" element={<Games />} />
+            <Route path="/progress" element={<Progress />} />
+            <Route path="/settings" element={<Settings />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
