@@ -178,11 +178,14 @@ function speak(text: string, lang = "ar-SA") {
 
 export default function Tajweed() {
   const [selectedRule, setSelectedRule] = useState<string>("idhhar");
-  const [mode, setMode] = useState<"learn" | "quiz">("learn");
+  const [mode, setMode] = useState<"learn" | "quiz" | "builtin">("learn");
   const [quizIdx, setQuizIdx] = useState(0);
   const [answered, setAnswered] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [timer, setTimer] = useState(20);
+  const [quizDone, setQuizDone] = useState(false);
+  const [builtinLevel, setBuiltinLevel] = useState("te_gjitha");
+  const [builtinCategory, setBuiltinCategory] = useState("te_gjitha");
   const [quizDone, setQuizDone] = useState(false);
 
   const rule = RULES.find((r) => r.id === selectedRule)!;
