@@ -247,12 +247,25 @@ export default function Tajweed() {
         <button onClick={() => setMode("learn")} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${mode === "learn" ? "bg-primary text-primary-foreground shadow-md" : "glass-card text-foreground/70"}`}>
           📚 Mëso Rregullat
         </button>
+        <button onClick={() => setMode("builtin")} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${mode === "builtin" ? "bg-primary text-primary-foreground shadow-md" : "glass-card text-foreground/70"}`}>
+          🎓 Texhuidi i Detajuar
+        </button>
         <button onClick={startQuiz} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${mode === "quiz" ? "bg-primary text-primary-foreground shadow-md" : "glass-card text-foreground/70"}`}>
           🎯 Kuiz ({QUIZ_QUESTIONS.length} pyetje)
         </button>
       </div>
 
-      {mode === "learn" ? (
+      {mode === "builtin" ? (
+        <div className="space-y-6">
+          <TajweedFilters
+            selectedLevel={builtinLevel}
+            selectedCategory={builtinCategory}
+            onLevelChange={setBuiltinLevel}
+            onCategoryChange={setBuiltinCategory}
+          />
+          <TajweedBuiltIn selectedLevel={builtinLevel} selectedCategory={builtinCategory} />
+        </div>
+      ) : mode === "learn" ? (
         <>
           {/* Rule selector */}
           <div className="flex flex-wrap gap-2 glass-card p-4 rounded-xl mb-8">
