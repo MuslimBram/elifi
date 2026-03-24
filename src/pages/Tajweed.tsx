@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, Volume2, CheckCircle, XCircle } from "lucide-react";
+import TajweedBuiltIn from "@/components/tajweed/TajweedBuiltIn";
+import TajweedFilters from "@/components/tajweed/TajweedFilters";
 
 interface TajweedRule {
   id: string;
