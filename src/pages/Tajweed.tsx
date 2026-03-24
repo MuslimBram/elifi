@@ -186,7 +186,6 @@ export default function Tajweed() {
   const [quizDone, setQuizDone] = useState(false);
   const [builtinLevel, setBuiltinLevel] = useState("te_gjitha");
   const [builtinCategory, setBuiltinCategory] = useState("te_gjitha");
-  const [quizDone, setQuizDone] = useState(false);
 
   const rule = RULES.find((r) => r.id === selectedRule)!;
 
