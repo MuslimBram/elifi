@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { BookOpen, Volume2, CheckCircle, XCircle } from "lucide-react";
+import TajweedBuiltIn from "@/components/tajweed/TajweedBuiltIn";
+import TajweedFilters from "@/components/tajweed/TajweedFilters";
 
 interface TajweedRule {
   id: string;
@@ -176,12 +178,14 @@ function speak(text: string, lang = "ar-SA") {
 
 export default function Tajweed() {
   const [selectedRule, setSelectedRule] = useState<string>("idhhar");
-  const [mode, setMode] = useState<"learn" | "quiz">("learn");
+  const [mode, setMode] = useState<"learn" | "quiz" | "builtin">("learn");
   const [quizIdx, setQuizIdx] = useState(0);
   const [answered, setAnswered] = useState<number | null>(null);
   const [score, setScore] = useState(0);
   const [timer, setTimer] = useState(20);
   const [quizDone, setQuizDone] = useState(false);
+  const [builtinLevel, setBuiltinLevel] = useState("te_gjitha");
+  const [builtinCategory, setBuiltinCategory] = useState("te_gjitha");
 
   const rule = RULES.find((r) => r.id === selectedRule)!;
 
@@ -243,12 +247,25 @@ export default function Tajweed() {
         <button onClick={() => setMode("learn")} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${mode === "learn" ? "bg-primary text-primary-foreground shadow-md" : "glass-card text-foreground/70"}`}>
           📚 Mëso Rregullat
         </button>
+        <button onClick={() => setMode("builtin")} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${mode === "builtin" ? "bg-primary text-primary-foreground shadow-md" : "glass-card text-foreground/70"}`}>
+          🎓 Texhuidi i Detajuar
+        </button>
         <button onClick={startQuiz} className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${mode === "quiz" ? "bg-primary text-primary-foreground shadow-md" : "glass-card text-foreground/70"}`}>
           🎯 Kuiz ({QUIZ_QUESTIONS.length} pyetje)
         </button>
       </div>
 
-      {mode === "learn" ? (
+      {mode === "builtin" ? (
+        <div className="space-y-6">
+          <TajweedFilters
+            selectedLevel={builtinLevel}
+            selectedCategory={builtinCategory}
+            onLevelChange={setBuiltinLevel}
+            onCategoryChange={setBuiltinCategory}
+          />
+          <TajweedBuiltIn selectedLevel={builtinLevel} selectedCategory={builtinCategory} />
+        </div>
+      ) : mode === "learn" ? (
         <>
           {/* Rule selector */}
           <div className="flex flex-wrap gap-2 glass-card p-4 rounded-xl mb-8">
