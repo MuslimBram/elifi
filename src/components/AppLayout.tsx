@@ -2,6 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ScrollToTop from "@/components/ui/ScrollToTop";
 import GlobalSearch from "@/components/ui/GlobalSearch";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
+import PWAInstallButton from "@/components/ui/PWAInstallButton";
+import { useAuth } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
+import { LogIn, LogOut } from "lucide-react";
 import {
   Home,
   BookOpen,
@@ -141,6 +146,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   const isActive = (path: string) => {
     if (path === "/") return location.pathname === "/";
@@ -189,15 +195,37 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             })}
           </nav>
 
-          {/* Mobile menu button */}
-          <button
-            className="lg:hidden p-2 rounded-xl hover:bg-secondary transition-colors"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Mbyll menynë" : "Hap menynë"}
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? <X className="w-5 h-5 text-foreground/70" /> : <Menu className="w-5 h-5 text-foreground/70" />}
-          </button>
+          {/* Right side actions */}
+          <div className="hidden lg:flex items-center gap-2 ml-2">
+            <PWAInstallButton />
+            <LanguageSwitcher />
+            {user ? (
+              <Button variant="ghost" size="sm" onClick={signOut} className="gap-1.5">
+                <LogOut className="w-4 h-4" />
+                <span className="text-xs">Dil</span>
+              </Button>
+            ) : (
+              <Link to="/login">
+                <Button variant="default" size="sm" className="gap-1.5">
+                  <LogIn className="w-4 h-4" />
+                  <span className="text-xs">Hyr</span>
+                </Button>
+              </Link>
+            )}
+          </div>
+
+          {/* Mobile right actions */}
+          <div className="lg:hidden flex items-center gap-1">
+            <LanguageSwitcher />
+            <button
+              className="p-2 rounded-xl hover:bg-secondary transition-colors"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? "Mbyll menynë" : "Hap menynë"}
+              aria-expanded={mobileOpen}
+            >
+              {mobileOpen ? <X className="w-5 h-5 text-foreground/70" /> : <Menu className="w-5 h-5 text-foreground/70" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Nav */}
@@ -255,6 +283,25 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                   </Link>
                 );
               })}
+              <div className="pt-2 border-t border-border mt-2 space-y-1">
+                <div className="px-2"><PWAInstallButton /></div>
+                {user ? (
+                  <button
+                    onClick={() => { signOut(); setMobileOpen(false); }}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-foreground/70 hover:bg-secondary"
+                  >
+                    <LogOut className="w-5 h-5" /> Dil
+                  </button>
+                ) : (
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium bg-primary text-primary-foreground"
+                  >
+                    <LogIn className="w-5 h-5" /> Hyr
+                  </Link>
+                )}
+              </div>
             </nav>
           </div>
         )}

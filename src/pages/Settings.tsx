@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Settings as SettingsIcon, Volume2, VolumeX, Moon, Sun, Type, RotateCcw, Globe, Palette, Check, Bell } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import TwoFactorSetup from "@/components/auth/TwoFactorSetup";
+import { useAuth } from "@/hooks/useAuth";
 
 const LANGUAGES = [
   { code: "sq", label: "Shqip", flag: "🇦🇱", dialects: ["Standard", "Gegërishte", "Toskërishte"] },
@@ -48,6 +50,7 @@ const DEFAULT_SETTINGS: AppSettings = {
 };
 
 export default function Settings() {
+  const { user } = useAuth();
   const [settings, setSettings] = useState<AppSettings>(() => {
     try {
       const saved = localStorage.getItem("app_settings");
@@ -252,6 +255,9 @@ export default function Settings() {
           className="w-full py-3 rounded-xl bg-primary text-primary-foreground font-bold text-sm hover:opacity-90 transition-all shadow-md flex items-center justify-center gap-2">
           {saved ? <><Check className="w-4 h-4" /> {t.savedBtn}</> : t.saveBtn}
         </button>
+
+        {/* 2FA — only shown when logged in */}
+        {user && <TwoFactorSetup />}
 
         {/* Reset */}
         <div className="glass-card rounded-2xl p-5">
