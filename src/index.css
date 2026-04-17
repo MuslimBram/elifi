@@ -132,3 +132,10 @@
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: hsl(150, 20%, 78%); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: hsl(152, 80%, 28%); }
+
+/* Fallback: ensure animated sections become visible even if JS / IntersectionObserver fails */
+@keyframes elif-fallback-show { to { opacity: 1; transform: none; } }
+main section, main .glass-card { animation: elif-fallback-show 0.01s linear 2.5s forwards; }
+@media (prefers-reduced-motion: reduce) {
+  main section, main .glass-card { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
