@@ -1,160 +1,260 @@
 import React, { useState } from "react";
-import { Globe, Volume2 } from "lucide-react";
+import { ArrowRightLeft, Volume2 } from "lucide-react";
 
-const LANGUAGES: Record<string, { name: string; flag: string }> = {
-  sq: { name: "Shqip", flag: "🇦🇱" },
-  ar: { name: "Arabisht", flag: "🇸🇦" },
-  en: { name: "Anglisht", flag: "🇬🇧" },
+type LangCode = "sq" | "en" | "ar";
+
+const LANGUAGES: Record<LangCode, { name: string; flag: string; ttsLang: string }> = {
+  sq: { name: "Shqip", flag: "🇦🇱", ttsLang: "sq-AL" },
+  en: { name: "Anglisht", flag: "🇬🇧", ttsLang: "en-US" },
+  ar: { name: "Arabisht", flag: "🇸🇦", ttsLang: "ar-SA" },
 };
 
-const DICTIONARY: Record<string, Record<string, Record<string, string>>> = {
+const DICTIONARY: Record<LangCode, Record<string, Record<LangCode, string>>> = {
   sq: {
-    "përshëndetje": { ar: "السلام عليكم", en: "Hello" },
-    "mirëmëngjesi": { ar: "صباح الخير", en: "Good morning" },
-    "mirëmbrëma": { ar: "مساء الخير", en: "Good evening" },
-    "faleminderit": { ar: "شكراً", en: "Thank you" },
-    "ju lutem": { ar: "من فضلك", en: "Please" },
-    "po": { ar: "نعم", en: "Yes" },
-    "jo": { ar: "لا", en: "No" },
-    "emri im është": { ar: "اسمي", en: "My name is" },
-    "si jeni": { ar: "كيف حالك", en: "How are you" },
-    "mirë": { ar: "بخير", en: "Good" },
-    "libër": { ar: "كتاب", en: "Book" },
-    "shkollë": { ar: "مدرسة", en: "School" },
-    "ujë": { ar: "ماء", en: "Water" },
-    "shtëpi": { ar: "بيت", en: "House" },
-    "diell": { ar: "شمس", en: "Sun" },
-    "hënë": { ar: "قمر", en: "Moon" },
-    "dashuri": { ar: "حب", en: "Love" },
-    "paqe": { ar: "سلام", en: "Peace" },
-    "familje": { ar: "عائلة", en: "Family" },
-    "fëmijë": { ar: "طفل", en: "Child" },
-  },
-  ar: {
-    "السلام عليكم": { sq: "Përshëndetje", en: "Hello" },
-    "صباح الخير": { sq: "Mirëmëngjesi", en: "Good morning" },
-    "مساء الخير": { sq: "Mirëmbrëma", en: "Good evening" },
-    "شكراً": { sq: "Faleminderit", en: "Thank you" },
-    "من فضلك": { sq: "Ju lutem", en: "Please" },
-    "نعم": { sq: "Po", en: "Yes" },
-    "لا": { sq: "Jo", en: "No" },
-    "اسمي": { sq: "Emri im është", en: "My name is" },
-    "كيف حالك": { sq: "Si jeni", en: "How are you" },
-    "بخير": { sq: "Mirë", en: "Good" },
-    "كتاب": { sq: "Libër", en: "Book" },
-    "مدرسة": { sq: "Shkollë", en: "School" },
-    "ماء": { sq: "Ujë", en: "Water" },
-    "بيت": { sq: "Shtëpi", en: "House" },
-    "شمس": { sq: "Diell", en: "Sun" },
-    "قمر": { sq: "Hënë", en: "Moon" },
-    "حب": { sq: "Dashuri", en: "Love" },
-    "سلام": { sq: "Paqe", en: "Peace" },
-    "عائلة": { sq: "Familje", en: "Family" },
-    "طفل": { sq: "Fëmijë", en: "Child" },
+    "përshëndetje": { sq: "Përshëndetje", ar: "السلام عليكم", en: "Hello" },
+    "mirëmëngjesi": { sq: "Mirëmëngjesi", ar: "صباح الخير", en: "Good morning" },
+    "mirëmbrëma": { sq: "Mirëmbrëma", ar: "مساء الخير", en: "Good evening" },
+    "faleminderit": { sq: "Faleminderit", ar: "شكراً", en: "Thank you" },
+    "ju lutem": { sq: "Ju lutem", ar: "من فضلك", en: "Please" },
+    "po": { sq: "Po", ar: "نعم", en: "Yes" },
+    "jo": { sq: "Jo", ar: "لا", en: "No" },
+    "emri im është": { sq: "Emri im është", ar: "اسمي", en: "My name is" },
+    "si jeni": { sq: "Si jeni", ar: "كيف حالك", en: "How are you" },
+    "mirë": { sq: "Mirë", ar: "بخير", en: "Good" },
+    "libër": { sq: "Libër", ar: "كتاب", en: "Book" },
+    "shkollë": { sq: "Shkollë", ar: "مدرسة", en: "School" },
+    "ujë": { sq: "Ujë", ar: "ماء", en: "Water" },
+    "shtëpi": { sq: "Shtëpi", ar: "بيت", en: "House" },
+    "diell": { sq: "Diell", ar: "شمس", en: "Sun" },
+    "hënë": { sq: "Hënë", ar: "قمر", en: "Moon" },
+    "dashuri": { sq: "Dashuri", ar: "حب", en: "Love" },
+    "paqe": { sq: "Paqe", ar: "سلام", en: "Peace" },
+    "familje": { sq: "Familje", ar: "عائلة", en: "Family" },
+    "fëmijë": { sq: "Fëmijë", ar: "طفل", en: "Child" },
   },
   en: {
-    "hello": { sq: "Përshëndetje", ar: "السلام عليكم" },
-    "good morning": { sq: "Mirëmëngjesi", ar: "صباح الخير" },
-    "good evening": { sq: "Mirëmbrëma", ar: "مساء الخير" },
-    "thank you": { sq: "Faleminderit", ar: "شكراً" },
-    "please": { sq: "Ju lutem", ar: "من فضلك" },
-    "yes": { sq: "Po", ar: "نعم" },
-    "no": { sq: "Jo", ar: "لا" },
-    "my name is": { sq: "Emri im është", ar: "اسمي" },
-    "how are you": { sq: "Si jeni", ar: "كيف حالك" },
-    "good": { sq: "Mirë", ar: "بخير" },
-    "book": { sq: "Libër", ar: "كتاب" },
-    "school": { sq: "Shkollë", ar: "مدرسة" },
-    "water": { sq: "Ujë", ar: "ماء" },
-    "house": { sq: "Shtëpi", ar: "بيت" },
-    "sun": { sq: "Diell", ar: "شمس" },
-    "moon": { sq: "Hënë", ar: "قمر" },
-    "love": { sq: "Dashuri", ar: "حب" },
-    "peace": { sq: "Paqe", ar: "سلام" },
-    "family": { sq: "Familje", ar: "عائلة" },
-    "child": { sq: "Fëmijë", ar: "طفل" },
+    "hello": { sq: "Përshëndetje", ar: "السلام عليكم", en: "Hello" },
+    "good morning": { sq: "Mirëmëngjesi", ar: "صباح الخير", en: "Good morning" },
+    "good evening": { sq: "Mirëmbrëma", ar: "مساء الخير", en: "Good evening" },
+    "thank you": { sq: "Faleminderit", ar: "شكراً", en: "Thank you" },
+    "please": { sq: "Ju lutem", ar: "من فضلك", en: "Please" },
+    "yes": { sq: "Po", ar: "نعم", en: "Yes" },
+    "no": { sq: "Jo", ar: "لا", en: "No" },
+    "my name is": { sq: "Emri im është", ar: "اسمي", en: "My name is" },
+    "how are you": { sq: "Si jeni", ar: "كيف حالك", en: "How are you" },
+    "good": { sq: "Mirë", ar: "بخير", en: "Good" },
+    "book": { sq: "Libër", ar: "كتاب", en: "Book" },
+    "school": { sq: "Shkollë", ar: "مدرسة", en: "School" },
+    "water": { sq: "Ujë", ar: "ماء", en: "Water" },
+    "house": { sq: "Shtëpi", ar: "بيت", en: "House" },
+    "sun": { sq: "Diell", ar: "شمس", en: "Sun" },
+    "moon": { sq: "Hënë", ar: "قمر", en: "Moon" },
+    "love": { sq: "Dashuri", ar: "حب", en: "Love" },
+    "peace": { sq: "Paqe", ar: "سلام", en: "Peace" },
+    "family": { sq: "Familje", ar: "عائلة", en: "Family" },
+    "child": { sq: "Fëmijë", ar: "طفل", en: "Child" },
+  },
+  ar: {
+    "السلام عليكم": { sq: "Përshëndetje", ar: "السلام عليكم", en: "Hello" },
+    "صباح الخير": { sq: "Mirëmëngjesi", ar: "صباح الخير", en: "Good morning" },
+    "مساء الخير": { sq: "Mirëmbrëma", ar: "مساء الخير", en: "Good evening" },
+    "شكراً": { sq: "Faleminderit", ar: "شكراً", en: "Thank you" },
+    "من فضلك": { sq: "Ju lutem", ar: "من فضلك", en: "Please" },
+    "نعم": { sq: "Po", ar: "نعم", en: "Yes" },
+    "لا": { sq: "Jo", ar: "لا", en: "No" },
+    "اسمي": { sq: "Emri im është", ar: "اسمي", en: "My name is" },
+    "كيف حالك": { sq: "Si jeni", ar: "كيف حالك", en: "How are you" },
+    "بخير": { sq: "Mirë", ar: "بخير", en: "Good" },
+    "كتاب": { sq: "Libër", ar: "كتاب", en: "Book" },
+    "مدرسة": { sq: "Shkollë", ar: "مدرسة", en: "School" },
+    "ماء": { sq: "Ujë", ar: "ماء", en: "Water" },
+    "بيت": { sq: "Shtëpi", ar: "بيت", en: "House" },
+    "شمس": { sq: "Diell", ar: "شمس", en: "Sun" },
+    "قمر": { sq: "Hënë", ar: "قمر", en: "Moon" },
+    "حب": { sq: "Dashuri", ar: "حب", en: "Love" },
+    "سلام": { sq: "Paqe", ar: "سلام", en: "Peace" },
+    "عائلة": { sq: "Familje", ar: "عائلة", en: "Family" },
+    "طفل": { sq: "Fëmijë", ar: "طفل", en: "Child" },
   },
 };
 
 export default function TriLanguageTranslator() {
-  const [selectedLang, setSelectedLang] = useState("sq");
-  const [inputWord, setInputWord] = useState("");
-  const [translation, setTranslation] = useState<{ word: string; translations: Record<string, string> } | null>(null);
+  const [sourceLang, setSourceLang] = useState<LangCode>("sq");
+  const [targetLang, setTargetLang] = useState<LangCode>("en");
+  const [inputText, setInputText] = useState("");
+  const [result, setResult] = useState<string | null>(null);
+  const [notFound, setNotFound] = useState(false);
 
-  const handleTranslate = (word: string) => {
-    const normalized = word.toLowerCase().trim();
-    const dict = DICTIONARY[selectedLang];
+  const handleTranslate = () => {
+    const normalized = inputText.toLowerCase().trim();
+    if (!normalized) return;
+    const dict = DICTIONARY[sourceLang];
     const found = Object.entries(dict).find(([key]) => key.toLowerCase() === normalized);
-    if (found) setTranslation({ word: found[0], translations: found[1] });
-    else setTranslation(null);
+    if (found) {
+      setResult(found[1][targetLang]);
+      setNotFound(false);
+    } else {
+      setResult(null);
+      setNotFound(true);
+    }
   };
 
-  const speak = (text: string, lang: string) => {
+  const handleSwap = () => {
+    setSourceLang(targetLang);
+    setTargetLang(sourceLang);
+    if (result) {
+      setInputText(result);
+      setResult(inputText);
+      setNotFound(false);
+    }
+  };
+
+  const speak = (text: string, lang: LangCode) => {
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = lang === "ar" ? "ar-SA" : lang === "sq" ? "sq-AL" : "en-US";
+    u.lang = LANGUAGES[lang].ttsLang;
     u.rate = 0.7;
     window.speechSynthesis.speak(u);
   };
 
+  const LangButton = ({
+    code,
+    active,
+    onClick,
+    accent,
+  }: {
+    code: LangCode;
+    active: boolean;
+    onClick: () => void;
+    accent: "purple" | "indigo";
+  }) => (
+    <button
+      onClick={onClick}
+      className={`flex-1 py-2 rounded-lg text-sm font-medium transition-all ${
+        active
+          ? accent === "purple"
+            ? "bg-purple-600 text-white"
+            : "bg-indigo-600 text-white"
+          : `bg-gray-100 text-gray-600 hover:bg-${accent}-50`
+      }`}
+    >
+      {LANGUAGES[code].flag} {LANGUAGES[code].name}
+    </button>
+  );
+
   return (
-    <div className="glass-card rounded-2xl p-6">
-      <div className="flex items-center gap-2 mb-5">
-        <Globe className="w-5 h-5 text-primary" />
-        <h3 className="font-bold text-foreground">Përkthyes Tri-Gjuhësor</h3>
-      </div>
-
-      <div className="flex gap-2 mb-5">
-        {Object.entries(LANGUAGES).map(([code, lang]) => (
-          <button key={code} onClick={() => { setSelectedLang(code); setInputWord(""); setTranslation(null); }}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${selectedLang === code ? "bg-primary text-primary-foreground shadow-md" : "bg-secondary text-secondary-foreground"}`}>
-            <span>{lang.flag}</span> {lang.name}
-          </button>
-        ))}
-      </div>
-
-      <div className="relative mb-5">
-        <input type="text" placeholder={`Shkruaj fjalë në ${LANGUAGES[selectedLang].name}...`} value={inputWord}
-          onChange={e => setInputWord(e.target.value)}
-          onKeyDown={e => { if (e.key === "Enter" && inputWord) handleTranslate(inputWord); }}
-          className="w-full px-4 py-3 border border-border rounded-xl bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary text-sm"
-          style={{ direction: selectedLang === "ar" ? "rtl" : "ltr" }} />
-        <button onClick={() => { if (inputWord) handleTranslate(inputWord); }}
-          className="absolute right-3 top-1/2 -translate-y-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-lg text-xs font-bold">
-          Përkthe
-        </button>
-      </div>
-
-      {translation ? (
-        <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 space-y-3">
-          <div className="font-bold text-foreground flex items-center gap-2">
-            <span className="text-lg" dir={selectedLang === "ar" ? "rtl" : "ltr"}>{translation.word}</span>
-            <button onClick={() => speak(translation.word, selectedLang)} className="opacity-70 hover:opacity-100"><Volume2 className="w-4 h-4" /></button>
+    <div className="glass-card rounded-2xl">
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-5 flex-wrap gap-2">
+          <div>
+            <p className="text-xs text-purple-500 uppercase tracking-widest font-semibold">Përkthyes</p>
+            <p className="text-xl font-bold text-purple-900 dark:text-purple-300">🌐 Përkthyes Tri-Gjuhësor</p>
           </div>
-          <div className="grid grid-cols-2 gap-3">
-            {Object.entries(translation.translations).map(([lang, text]) => (
-              <div key={lang} className="bg-card rounded-lg p-3 text-center border border-border">
-                <p className="text-xs text-muted-foreground mb-1">{LANGUAGES[lang]?.name || lang}</p>
-                <p className="font-semibold text-foreground text-sm" dir={lang === "ar" ? "rtl" : "ltr"}>{text}</p>
-                <button onClick={() => speak(text, lang)} className="mt-2 text-primary opacity-70 hover:opacity-100"><Volume2 className="w-3.5 h-3.5 mx-auto" /></button>
-              </div>
+          <div className="flex gap-2 text-xs text-purple-600 dark:text-purple-400">
+            🇦🇱 Shqip &nbsp;·&nbsp; 🇬🇧 Anglisht &nbsp;·&nbsp; 🇸🇦 Arabisht
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 mb-4">
+          <div className="flex gap-1 flex-1">
+            {(Object.keys(LANGUAGES) as LangCode[]).map((code) => (
+              <LangButton
+                key={`src-${code}`}
+                code={code}
+                active={sourceLang === code}
+                accent="purple"
+                onClick={() => {
+                  if (code === targetLang) setTargetLang(sourceLang);
+                  setSourceLang(code);
+                  setResult(null);
+                  setNotFound(false);
+                }}
+              />
+            ))}
+          </div>
+          <button
+            onClick={handleSwap}
+            className="p-2 rounded-lg bg-purple-100 hover:bg-purple-200 text-purple-700 transition-colors"
+            aria-label="Swap languages"
+          >
+            <ArrowRightLeft className="w-4 h-4" />
+          </button>
+          <div className="flex gap-1 flex-1">
+            {(Object.keys(LANGUAGES) as LangCode[]).map((code) => (
+              <LangButton
+                key={`tgt-${code}`}
+                code={code}
+                active={targetLang === code}
+                accent="indigo"
+                onClick={() => {
+                  if (code === sourceLang) setSourceLang(targetLang);
+                  setTargetLang(code);
+                  setResult(null);
+                  setNotFound(false);
+                }}
+              />
             ))}
           </div>
         </div>
-      ) : inputWord ? (
-        <div className="text-center py-6 text-muted-foreground text-sm">Fjala nuk u gjet në fjalor. Provo ndonjë fjalë tjetër.</div>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          {Object.keys(DICTIONARY[selectedLang]).slice(0, 8).map(word => (
-            <button key={word} onClick={() => { setInputWord(word); handleTranslate(word); }}
-              className="px-3 py-2 bg-secondary hover:bg-primary/10 rounded-lg text-xs font-semibold text-foreground transition-colors text-center truncate"
-              dir={selectedLang === "ar" ? "rtl" : "ltr"}>
-              {word}
-            </button>
-          ))}
-        </div>
-      )}
+
+        <textarea
+          placeholder={`Shkruaj në ${LANGUAGES[sourceLang].name}...`}
+          value={inputText}
+          onChange={(e) => {
+            setInputText(e.target.value);
+            setResult(null);
+            setNotFound(false);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              handleTranslate();
+            }
+          }}
+          className="w-full border-2 border-gray-200 dark:border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-400 resize-none h-24 bg-card text-foreground"
+          dir={sourceLang === "ar" ? "rtl" : "ltr"}
+        />
+
+        <button
+          onClick={handleTranslate}
+          disabled={!inputText.trim()}
+          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 shadow h-9 px-4 py-2 w-full mt-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold"
+        >
+          🌐 Përkthe
+        </button>
+
+        {result && (
+          <div className="mt-4 bg-indigo-50 dark:bg-indigo-950/30 border-2 border-indigo-200 dark:border-indigo-800 rounded-xl p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1">
+                <p className="text-xs text-indigo-500 uppercase tracking-wider font-semibold mb-1">
+                  {LANGUAGES[targetLang].flag} {LANGUAGES[targetLang].name}
+                </p>
+                <p
+                  className="text-lg font-bold text-indigo-900 dark:text-indigo-200"
+                  dir={targetLang === "ar" ? "rtl" : "ltr"}
+                >
+                  {result}
+                </p>
+              </div>
+              <button
+                onClick={() => speak(result, targetLang)}
+                className="p-2 rounded-lg bg-indigo-100 hover:bg-indigo-200 text-indigo-700 transition-colors"
+                aria-label="Listen"
+              >
+                <Volume2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {notFound && (
+          <div className="mt-4 text-center py-4 text-muted-foreground text-sm bg-muted/30 rounded-xl">
+            Fjala nuk u gjet në fjalor. Provo ndonjë fjalë tjetër.
+          </div>
+        )}
+      </div>
     </div>
   );
 }
