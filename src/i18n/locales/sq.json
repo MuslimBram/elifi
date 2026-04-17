@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "home": "Kreu",
+    "alphabet": "Alfabeti",
+    "quran": "Kur'ani",
+    "tajweed": "Texhuidi",
+    "umraHajj": "Umra & Haxhi",
+    "fikh": "Fikh",
+    "games": "Lojëra",
+    "progress": "Progresi",
+    "favorites": "Të preferuarat",
+    "settings": "Cilësimet",
+    "login": "Hyr",
+    "register": "Regjistrohu",
+    "logout": "Dil"
+  },
+  "hero": {
+    "badge": "✨ Platformë edukative",
+    "title": "Mirë se vini në",
+    "titleHighlight": "Edukim Interaktiv",
+    "quote": "Njerëzit më të mirë ndër ju janë ata që mësojnë Kur'anin dhe ua mësojnë të tjerëve.",
+    "quoteSource": "— Transmeton Buhariu"
+  },
+  "auth": {
+    "login": "Hyr",
+    "register": "Regjistrohu",
+    "email": "Email",
+    "password": "Fjalëkalimi",
+    "confirmPassword": "Konfirmo fjalëkalimin",
+    "name": "Emri",
+    "loginTitle": "Hyr në llogarinë tënde",
+    "registerTitle": "Krijo një llogari të re",
+    "noAccount": "Nuk ke llogari?",
+    "haveAccount": "Ke llogari?",
+    "signInWithApple": "Vazhdo me Apple",
+    "signInWithGoogle": "Vazhdo me Google",
+    "or": "ose",
+    "twoFactor": "Verifikimi në dy hapa",
+    "twoFactorCode": "Kodi 6-shifror",
+    "scanQr": "Skano QR-in me Google Authenticator",
+    "verify": "Verifiko",
+    "enable2FA": "Aktivizo 2FA",
+    "disable2FA": "Çaktivizo 2FA"
+  },
+  "pwa": {
+    "install": "Instalo aplikacionin",
+    "installPrompt": "Instalo Elif në pajisjen tënde",
+    "installDescription": "Përdore offline, akses i shpejtë nga ekrani kryesor"
+  },
+  "common": {
+    "loading": "Duke ngarkuar...",
+    "save": "Ruaj",
+    "cancel": "Anulo",
+    "continue": "Vazhdo",
+    "language": "Gjuha"
+  }
+}

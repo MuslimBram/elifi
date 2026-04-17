@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "home": "Home",
+    "alphabet": "Alphabet",
+    "quran": "Qur'an",
+    "tajweed": "Tajweed",
+    "umraHajj": "Umrah & Hajj",
+    "fikh": "Fiqh",
+    "games": "Games",
+    "progress": "Progress",
+    "favorites": "Favorites",
+    "settings": "Settings",
+    "login": "Sign in",
+    "register": "Sign up",
+    "logout": "Sign out"
+  },
+  "hero": {
+    "badge": "✨ Educational platform",
+    "title": "Welcome to",
+    "titleHighlight": "Interactive Education",
+    "quote": "The best of you are those who learn the Qur'an and teach it to others.",
+    "quoteSource": "— Narrated by Bukhari"
+  },
+  "auth": {
+    "login": "Sign in",
+    "register": "Sign up",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "name": "Name",
+    "loginTitle": "Sign in to your account",
+    "registerTitle": "Create a new account",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "signInWithApple": "Continue with Apple",
+    "signInWithGoogle": "Continue with Google",
+    "or": "or",
+    "twoFactor": "Two-factor authentication",
+    "twoFactorCode": "6-digit code",
+    "scanQr": "Scan the QR with Google Authenticator",
+    "verify": "Verify",
+    "enable2FA": "Enable 2FA",
+    "disable2FA": "Disable 2FA"
+  },
+  "pwa": {
+    "install": "Install app",
+    "installPrompt": "Install Elif on your device",
+    "installDescription": "Use offline, quick access from your home screen"
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "language": "Language"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "alphabet": "الأبجدية",
+    "quran": "القرآن",
+    "tajweed": "التجويد",
+    "umraHajj": "العمرة والحج",
+    "fikh": "الفقه",
+    "games": "ألعاب",
+    "progress": "التقدم",
+    "favorites": "المفضلة",
+    "settings": "الإعدادات",
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "logout": "تسجيل الخروج"
+  },
+  "hero": {
+    "badge": "✨ منصة تعليمية",
+    "title": "مرحبًا بكم في",
+    "titleHighlight": "التعليم التفاعلي",
+    "quote": "خيركم من تعلم القرآن وعلمه.",
+    "quoteSource": "— رواه البخاري"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "name": "الاسم",
+    "loginTitle": "سجّل الدخول إلى حسابك",
+    "registerTitle": "إنشاء حساب جديد",
+    "noAccount": "ليس لديك حساب؟",
+    "haveAccount": "لديك حساب بالفعل؟",
+    "signInWithApple": "المتابعة باستخدام Apple",
+    "signInWithGoogle": "المتابعة باستخدام Google",
+    "or": "أو",
+    "twoFactor": "المصادقة الثنائية",
+    "twoFactorCode": "رمز من 6 أرقام",
+    "scanQr": "امسح رمز QR بتطبيق Google Authenticator",
+    "verify": "تحقق",
+    "enable2FA": "تفعيل 2FA",
+    "disable2FA": "إيقاف 2FA"
+  },
+  "pwa": {
+    "install": "تثبيت التطبيق",
+    "installPrompt": "ثبّت Elif على جهازك",
+    "installDescription": "استخدمه دون اتصال، وصول سريع من الشاشة الرئيسية"
+  },
+  "common": {
+    "loading": "جارٍ التحميل...",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "continue": "متابعة",
+    "language": "اللغة"
+  }
+}
