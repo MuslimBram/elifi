@@ -1,74 +1,84 @@
-import React, { useState, useEffect } from "react";
-import { Clock, MapPin, LocateFixed } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Bell, MapPin, ChevronDown, Music } from "lucide-react";
 
-const PRAYER_META: Record<string, { emoji: string; sq: string; sub?: string }> = {
-  Fajr: { emoji: "🌄", sq: "Sabahu", sub: "Agimi" },
-  Sunrise: { emoji: "☀️", sq: "Lindja e Diellit" },
-  Dhuhr: { emoji: "🟡", sq: "Dreka", sub: "Mesditja" },
-  Asr: { emoji: "🟠", sq: "Ikindia", sub: "Pasditja" },
-  Maghrib: { emoji: "🌇", sq: "Akshami", sub: "Perëndimi" },
-  Isha: { emoji: "🌙", sq: "Jacia", sub: "Nata" },
+const ALBANIAN_CITIES = [
+  "Tirane", "Durres", "Shkoder", "Vlore", "Elbasan", "Korce", "Fier", "Berat",
+  "Prizren", "Prishtine", "Tetove", "Shkup", "Gjilan", "Pejë", "Mitrovice",
+];
+
+const PRAYERS: Array<{
+  key: string;
+  label: string;
+  sub?: string;
+  icon: string;
+  isMain: boolean;
+  isInfo?: boolean;
+}> = [
+  { key: "Imsak", label: "Imsaku (fillim agjërimi)", icon: "🌙", isMain: false, isInfo: true },
+  { key: "Fajr", label: "Sabahu", sub: "Agimi", icon: "🟢", isMain: true },
+  { key: "Sunrise", label: "Lindja e Diellit", icon: "☀️", isMain: false, isInfo: true },
+  { key: "Dhuhr", label: "Dreka", icon: "☀️", isMain: true },
+  { key: "Asr", label: "Ikindia", sub: "Pasdija", icon: "🌤️", isMain: true },
+  { key: "Maghrib", label: "Akshami", sub: "Perëndimi", icon: "🕌", isMain: true },
+  { key: "Sunset", label: "Perëndimi i Diellit", icon: "🌅", isMain: false, isInfo: true },
+  { key: "Isha", label: "Jacia", sub: "Nata", icon: "🌙", isMain: true },
+];
+
+const HIJRI_MONTHS_SQ: Record<string, string> = {
+  "Muharram": "Muharrem", "Safar": "Safer", "Rabi al-awwal": "Rebiul-Evvel",
+  "Rabi al-thani": "Rebiul-Ahir", "Jumada al-awwal": "Xhumadel-Evvel",
+  "Jumada al-thani": "Xhumadel-Ahir", "Rajab": "Rexheb", "Sha'ban": "Shaban",
+  "Ramadan": "Ramazan", "Shawwal": "Shevval", "Dhu al-Qi'dah": "Dhul-Kade",
+  "Dhu al-Hijjah": "Dhul-Hixhe",
 };
-
-const SHOW_ORDER = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
 
 export default function PrayerTimesWidget() {
   const [times, setTimes] = useState<Record<string, string> | null>(null);
   const [city, setCity] = useState("Tirane");
-  const [locationName, setLocationName] = useState<string | null>(null);
+  const [usingGPS, setUsingGPS] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [hijriDate, setHijriDate] = useState<string | null>(null);
+  const [showCityList, setShowCityList] = useState(false);
+  const [notify, setNotify] = useState<boolean>(() => localStorage.getItem("prayerNotify") === "1");
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const t = setInterval(() => setCurrentTime(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
 
-  const fetchByCity = async (cityName: string) => {
+  const fetchTimes = async (params: string) => {
     setLoading(true);
     try {
       const today = new Date();
       const dateStr = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
-      const res = await fetch(`https://api.aladhan.com/v1/timingsByCity/${dateStr}?city=${encodeURIComponent(cityName)}&country=Albania&method=3`);
+      const res = await fetch(`https://api.aladhan.com/v1/${params}&date=${dateStr}&method=3`);
       const data = await res.json();
       if (data.data?.timings) {
         setTimes(data.data.timings);
         const h = data.data?.date?.hijri;
-        if (h) setHijriDate(`${h.day} ${h.month?.en || ""} ${h.year} هـ`);
+        if (h) {
+          const monthSq = HIJRI_MONTHS_SQ[h.month?.en] || h.month?.en || "";
+          setHijriDate(`${h.day} ${monthSq} ${h.year}`);
+        }
       }
     } catch { /* silent */ }
     setLoading(false);
   };
 
-  const fetchByCoords = async (lat: number, lng: number) => {
-    setLoading(true);
-    try {
-      const today = new Date();
-      const dateStr = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
-      const res = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lng}&method=3`);
-      const data = await res.json();
-      if (data.data?.timings) {
-        setTimes(data.data.timings);
-        const h = data.data?.date?.hijri;
-        if (h) setHijriDate(`${h.day} ${h.month?.en || ""} ${h.year} هـ`);
-      }
-    } catch { /* silent */ }
-    setLoading(false);
-  };
-
-  useEffect(() => { fetchByCity(city); }, [city]);
+  useEffect(() => {
+    if (!usingGPS) {
+      fetchTimes(`timingsByCity/?city=${encodeURIComponent(city)}&country=Albania`);
+    }
+  }, [city, usingGPS]);
 
   const detectLocation = () => {
     if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(async (pos) => {
+    navigator.geolocation.getCurrentPosition((pos) => {
       const { latitude, longitude } = pos.coords;
-      fetchByCoords(latitude, longitude);
-      try {
-        const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`);
-        const d = await r.json();
-        setLocationName(d.address?.city || d.address?.town || d.address?.village || "GPS");
-      } catch { setLocationName("GPS"); }
+      setUsingGPS(true);
+      fetchTimes(`timings/?latitude=${latitude}&longitude=${longitude}`);
     });
   };
 
@@ -82,76 +92,164 @@ export default function PrayerTimesWidget() {
     return "Fajr";
   };
 
+  const playAdhan = (prayerKey: string) => {
+    if (audioRef.current) { audioRef.current.pause(); audioRef.current = null; }
+    const audio = new Audio("https://www.islamcan.com/audio/adhan/azan2.mp3");
+    audioRef.current = audio;
+    audio.play().catch(() => {
+      if ("speechSynthesis" in window) {
+        const u = new SpeechSynthesisUtterance("Allahu Akbar. Allahu Akbar.");
+        u.lang = "ar-SA";
+        window.speechSynthesis.speak(u);
+      }
+    });
+  };
+
+  const toggleNotify = () => {
+    const v = !notify;
+    setNotify(v);
+    localStorage.setItem("prayerNotify", v ? "1" : "0");
+    if (v && "Notification" in window) Notification.requestPermission();
+  };
+
   const nextPrayer = getNextPrayer();
-  const timeString = currentTime.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true });
-  const dateString = currentTime.toLocaleDateString("sq-AL", { weekday: "short", month: "short", day: "numeric" });
+  const timeString = currentTime.toLocaleTimeString("en-US", {
+    hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true,
+  });
+  const dateString = currentTime.toLocaleDateString("sq-AL", {
+    weekday: "long", month: "short", day: "numeric",
+  });
 
   return (
-    <div className="rounded-2xl overflow-hidden shadow-xl">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-4">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
-            <Clock className="w-5 h-5 text-emerald-400" />
-            <h3 className="font-bold text-lg">Kohët e Namazit</h3>
+    <div
+      className="rounded-2xl overflow-hidden shadow-2xl"
+      style={{ background: "linear-gradient(135deg, rgb(13,27,42) 0%, rgb(26,39,68) 50%, rgb(30,27,58) 100%)" }}
+    >
+      {/* Top header */}
+      <div className="px-5 pt-5 pb-3 flex items-center justify-between flex-wrap gap-2">
+        <div className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-full border-2 border-teal-400 flex items-center justify-center">
+            <div className="w-3 h-3 rounded-full bg-teal-400" />
           </div>
-          <div className="flex gap-2">
-            <button onClick={detectLocation} className="flex items-center gap-1 bg-emerald-600/40 hover:bg-emerald-600/60 rounded-xl px-2 py-1 transition-colors" title="Zbulo vendndodhjen">
-              <LocateFixed className="w-3.5 h-3.5 text-emerald-300" />
-              <span className="text-xs text-emerald-200 font-semibold">{locationName || "GPS"}</span>
+          <span className="text-white font-bold text-lg">Kohët e Namazit</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={toggleNotify}
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+              notify ? "bg-teal-500/30 text-teal-300" : "bg-white/10 hover:bg-white/20 text-white/70"
+            }`}
+            title={notify ? "Njoftimet aktive" : "Aktivizo njoftimet"}
+          >
+            <Bell className="w-4 h-4" />
+          </button>
+          <button
+            onClick={detectLocation}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-sm font-medium transition-colors ${
+              usingGPS
+                ? "bg-teal-500/20 border-teal-500/40 text-teal-300"
+                : "bg-white/10 border-white/10 text-white/80 hover:bg-white/15"
+            }`}
+          >
+            <div className={`w-2 h-2 rounded-full ${usingGPS ? "bg-teal-400 animate-pulse" : "bg-white/40"}`} />
+            GPS
+          </button>
+          <div className="relative">
+            <button
+              onClick={() => setShowCityList(s => !s)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-white text-sm font-medium"
+            >
+              <MapPin className="w-3.5 h-3.5 text-white/60" />
+              {city === "Tirane" ? "Tiranë" : city}
+              <ChevronDown className="w-3.5 h-3.5 text-white/60" />
             </button>
-            {!locationName && (
-              <div className="flex items-center gap-1 bg-white/10 rounded-xl px-2 py-1">
-                <MapPin className="w-3.5 h-3.5 text-emerald-300" />
-                <select value={city} onChange={e => { setLocationName(null); setCity(e.target.value); }} className="bg-transparent text-white text-xs font-semibold outline-none cursor-pointer">
-                  <option value="Tirane" className="text-black">Tiranë</option>
-                  <option value="Durres" className="text-black">Durrës</option>
-                  <option value="Shkoder" className="text-black">Shkodër</option>
-                  <option value="Vlore" className="text-black">Vlorë</option>
-                  <option value="Elbasan" className="text-black">Elbasan</option>
-                  <option value="Korce" className="text-black">Korçë</option>
-                  <option value="Fier" className="text-black">Fier</option>
-                  <option value="Berat" className="text-black">Berat</option>
-                  <option value="Prizren" className="text-black">Prizren</option>
-                  <option value="Prishtine" className="text-black">Prishtinë</option>
-                  <option value="Tetove" className="text-black">Tetovë</option>
-                  <option value="Shkup" className="text-black">Shkup</option>
-                </select>
+            {showCityList && (
+              <div className="absolute right-0 top-full mt-1 w-44 max-h-64 overflow-y-auto bg-gray-900 border border-white/10 rounded-xl shadow-xl z-20">
+                {ALBANIAN_CITIES.map(c => (
+                  <button
+                    key={c}
+                    onClick={() => { setCity(c); setUsingGPS(false); setShowCityList(false); }}
+                    className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10"
+                  >
+                    {c}
+                  </button>
+                ))}
               </div>
             )}
           </div>
         </div>
-        <div className="flex items-center justify-between">
-          <p className="text-xl font-mono font-bold">⏰ {timeString}</p>
-          <div className="text-right text-sm">
-            <p className="text-white/80">{dateString}</p>
-            {hijriDate && <p className="text-emerald-300 text-xs">{hijriDate}</p>}
+      </div>
+
+      {/* Time + date */}
+      <div className="px-5 pb-4 flex items-center justify-between border-b border-white/10 flex-wrap gap-2">
+        <div className="flex items-center gap-3">
+          <div className="w-6 h-6 rounded-full border-2 border-white/30 flex items-center justify-center">
+            <div className="w-2 h-2 rounded-full bg-white/50" />
           </div>
+          <span className="text-white text-2xl font-mono font-bold">{timeString}</span>
+        </div>
+        <div className="text-right">
+          <p className="text-teal-400 text-sm font-semibold capitalize">{dateString}</p>
+          {hijriDate && <p className="text-amber-400 text-xs">🌙 {hijriDate} 🌙</p>}
         </div>
       </div>
 
       {/* Prayer list */}
-      <div className="bg-gradient-to-b from-gray-900 to-gray-800">
+      <div className="divide-y divide-white/5">
         {loading && <div className="text-center py-4 text-white/50 text-sm">Duke ngarkuar...</div>}
-        {times && SHOW_ORDER.map(key => {
-          const meta = PRAYER_META[key];
-          const isNext = key === nextPrayer;
+        {times && PRAYERS.map(p => {
+          const isNext = p.key === nextPrayer && p.isMain;
+          const time = times[p.key]?.slice(0, 5);
+          if (!time) return null;
           return (
-            <div key={key} className={`flex items-center justify-between px-4 py-3 border-b border-white/5 ${isNext ? "bg-emerald-500/10" : ""}`}>
+            <div
+              key={p.key}
+              className={`px-5 py-3 flex items-center justify-between transition-colors ${
+                isNext
+                  ? "bg-gradient-to-r from-teal-900/60 to-teal-800/30 border-l-4 border-teal-400"
+                  : p.isInfo ? "bg-transparent opacity-70" : "hover:bg-white/5"
+              }`}
+            >
               <div className="flex items-center gap-3">
-                <span className="text-lg">{meta.emoji}</span>
+                <span className="text-lg w-6 text-center">{p.icon}</span>
                 <div>
-                  <p className={`text-sm font-semibold ${isNext ? "text-emerald-400" : "text-white/80"}`}>{meta.sq}</p>
-                  {meta.sub && <p className="text-[10px] text-white/40">{meta.sub}</p>}
+                  <div className="flex items-center gap-2">
+                    {isNext && <div className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />}
+                    <span className={`font-semibold text-sm ${
+                      isNext ? "text-teal-300" : p.isInfo ? "text-yellow-300" : "text-white"
+                    }`}>
+                      {p.label}
+                    </span>
+                  </div>
+                  {p.key === "Fajr" && times.Fajr && (
+                    <p className="text-xs text-white/40">Ezani (Fajr): {times.Fajr.slice(0, 5)}</p>
+                  )}
+                  {p.sub && <p className="text-xs text-white/30">{p.sub}</p>}
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className={`text-sm font-bold font-mono ${isNext ? "text-emerald-400" : "text-white/70"}`}>{times[key]?.slice(0, 5)}</span>
-                {isNext && <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold">Radhës</span>}
+                <span className={`font-bold text-base tabular-nums ${
+                  isNext ? "text-teal-300" : p.isInfo ? "text-yellow-300" : "text-white/90"
+                }`}>
+                  {time}
+                </span>
+                {p.isMain && (
+                  <button
+                    onClick={() => playAdhan(p.key)}
+                    className="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/50 hover:text-white/80 transition-colors"
+                    title="Dëgjo ezanin"
+                  >
+                    <Music className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
             </div>
           );
         })}
+      </div>
+
+      <div className="px-5 py-3 text-center text-white/30 text-xs">
+        * Kohët janë afërsisht. Verifikoni me burim lokal.
       </div>
     </div>
   );

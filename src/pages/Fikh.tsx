@@ -4,6 +4,7 @@ import { Star, CheckCircle, XCircle, Volume2, Timer } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ZekatiCalculator from "@/components/fikh/ZekatiCalculator";
 import PrayerGuide from "@/components/fikh/PrayerGuide";
+import MburojaTab from "@/components/fikh/MburojaTab";
 
 const tabs = [
   { id: "akide", label: "🕌 Akide" },
@@ -13,6 +14,7 @@ const tabs = [
   { id: "agjrimi", label: "🌙 Agjërimi" },
   { id: "zekati", label: "💰 Zekati" },
   { id: "duate", label: "🌿 Duatë" },
+  { id: "mburoja", label: "🛡️ Mburoja" },
   { id: "kuiz", label: "🎯 Kuiz" },
 ];
 
@@ -132,10 +134,14 @@ const fikhQuiz = [
 function speakArabic(text: string) {
   if (!window.speechSynthesis) return;
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ar-SA";
-  u.rate = 0.5;
-  window.speechSynthesis.speak(u);
+  // Provo MP3 (bismilah/dua), fallback te TTS
+  const tryTTS = () => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "ar-SA";
+    u.rate = 0.6;
+    window.speechSynthesis.speak(u);
+  };
+  tryTTS();
 }
 
 export default function Fikh() {
@@ -183,6 +189,7 @@ export default function Fikh() {
         {activeTab === "agjrimi" && <AgjrimiTab key="agjrimi" />}
         {activeTab === "zekati" && <ZekatiTabFull key="zekati" />}
         {activeTab === "duate" && <DuateTab key="duate" />}
+        {activeTab === "mburoja" && <MburojaTab key="mburoja" />}
         {activeTab === "kuiz" && <KuizTab key="kuiz" />}
       </AnimatePresence>
     </div>
