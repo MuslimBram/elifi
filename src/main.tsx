@@ -18,10 +18,22 @@ else if (savedFontSize === "xlarge") document.documentElement.style.fontSize = "
 // Update daily streak on each visit
 updateDailyStreak();
 
-// Register service worker
+// Register service worker only in production.
+// In preview/dev, stale cached Vite chunks can cause invalid React hook runtime errors.
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
+    if (import.meta.env.PROD) {
+      navigator.serviceWorker.register("/sw.js").catch(() => {});
+      return;
+    }
+
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      registrations.forEach((registration) => registration.unregister());
+    }).catch(() => {});
+
+    caches.keys().then((keys) => {
+      keys.forEach((key) => caches.delete(key));
+    }).catch(() => {});
   });
 }
 

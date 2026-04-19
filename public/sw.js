@@ -1,7 +1,5 @@
-const CACHE_NAME = 'elif-v1';
+const CACHE_NAME = 'elif-v2';
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
   '/manifest.json',
 ];
 
@@ -23,26 +21,35 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
-  
-  // Network first for API calls
-  if (event.request.url.includes('api.')) {
-    event.respondWith(
-      fetch(event.request).catch(() => caches.match(event.request))
-    );
+
+  const url = new URL(event.request.url);
+  const isSameOrigin = url.origin === self.location.origin;
+  const isNavigation = event.request.mode === 'navigate';
+  const isViteDevAsset = url.pathname.includes('/node_modules/.vite/') || url.pathname.includes('/@vite/') || url.pathname.includes('/src/');
+  const isApiRequest = url.hostname.includes('api.') || url.hostname.includes('aladhan.com');
+
+  if (isNavigation || isViteDevAsset || isApiRequest) {
+    event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
     return;
   }
 
-  // Cache first for static assets
+  if (!isSameOrigin) {
+    event.respondWith(fetch(event.request).catch(() => caches.match(event.request)));
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cached) => {
-      const fetchPromise = fetch(event.request).then((response) => {
-        if (response.ok) {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-        }
-        return response;
-      }).catch(() => cached);
-      
+      const fetchPromise = fetch(event.request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => cached);
+
       return cached || fetchPromise;
     })
   );
