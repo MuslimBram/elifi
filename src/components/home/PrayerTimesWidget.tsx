@@ -52,12 +52,19 @@ export default function PrayerTimesWidget() {
     setLoading(true);
     try {
       const today = new Date();
-      const dateStr = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+      const dateStr = `${String(today.getDate()).padStart(2,'0')}-${String(today.getMonth() + 1).padStart(2,'0')}-${today.getFullYear()}`;
       // method=13 = Diyanet (Turqi) — standardi i përdorur nga KMSH në Shqipëri/Kosovë
-      const res = await fetch(`https://api.aladhan.com/v1/${params}&date=${dateStr}&method=13&school=0`);
+      // timezonestring forces correct local time conversion (otherwise API returns UTC-shifted values)
+      const url = `https://api.aladhan.com/v1/${params}&date=${dateStr}&method=13&school=0&timezonestring=Europe/Tirane`;
+      const res = await fetch(url);
       const data = await res.json();
       if (data.data?.timings) {
-        setTimes(data.data.timings);
+        // Strip timezone suffix like " (CEST)" from each value
+        const cleaned: Record<string, string> = {};
+        Object.entries(data.data.timings).forEach(([k, v]) => {
+          cleaned[k] = String(v).split(" ")[0];
+        });
+        setTimes(cleaned);
         const h = data.data?.date?.hijri;
         if (h) {
           const monthSq = HIJRI_MONTHS_SQ[h.month?.en] || h.month?.en || "";
@@ -114,11 +121,13 @@ export default function PrayerTimesWidget() {
   };
 
   const nextPrayer = getNextPrayer();
-  const timeString = currentTime.toLocaleTimeString("en-US", {
-    hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true,
+  const timeString = currentTime.toLocaleTimeString("sq-AL", {
+    hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false,
+    timeZone: "Europe/Tirane",
   });
   const dateString = currentTime.toLocaleDateString("sq-AL", {
-    weekday: "long", month: "short", day: "numeric",
+    weekday: "long", month: "long", day: "numeric",
+    timeZone: "Europe/Tirane",
   });
 
   return (
