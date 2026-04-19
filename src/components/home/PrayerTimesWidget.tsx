@@ -92,7 +92,8 @@ export default function PrayerTimesWidget() {
 
   useEffect(() => {
     if (!usingGPS) {
-      fetchTimes(`timingsByCity/?city=${encodeURIComponent(city)}&country=Albania`);
+      const c = ALBANIAN_CITIES[city] || ALBANIAN_CITIES.Tirane;
+      fetchTimes(`timings/?latitude=${c.lat}&longitude=${c.lng}`);
     }
   }, [city, usingGPS]);
 
