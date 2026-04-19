@@ -1,10 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Bell, MapPin, ChevronDown, Music } from "lucide-react";
 
-const ALBANIAN_CITIES = [
-  "Tirane", "Durres", "Shkoder", "Vlore", "Elbasan", "Korce", "Fier", "Berat",
-  "Prizren", "Prishtine", "Tetove", "Shkup", "Gjilan", "Pejë", "Mitrovice",
-];
+const ALBANIAN_CITIES: Record<string, { lat: number; lng: number; label: string }> = {
+  Tirane:    { lat: 41.3275, lng: 19.8187, label: "Tiranë" },
+  Durres:    { lat: 41.3231, lng: 19.4414, label: "Durrës" },
+  Shkoder:   { lat: 42.0683, lng: 19.5126, label: "Shkodër" },
+  Vlore:     { lat: 40.4686, lng: 19.4914, label: "Vlorë" },
+  Elbasan:   { lat: 41.1125, lng: 20.0822, label: "Elbasan" },
+  Korce:     { lat: 40.6186, lng: 20.7808, label: "Korçë" },
+  Fier:      { lat: 40.7239, lng: 19.5566, label: "Fier" },
+  Berat:     { lat: 40.7058, lng: 19.9522, label: "Berat" },
+  Prizren:   { lat: 42.2139, lng: 20.7397, label: "Prizren" },
+  Prishtine: { lat: 42.6629, lng: 21.1655, label: "Prishtinë" },
+  Tetove:    { lat: 42.0103, lng: 20.9714, label: "Tetovë" },
+  Shkup:     { lat: 41.9981, lng: 21.4254, label: "Shkup" },
+  Gjilan:    { lat: 42.4636, lng: 21.4694, label: "Gjilan" },
+  Peje:      { lat: 42.6591, lng: 20.2883, label: "Pejë" },
+  Mitrovice: { lat: 42.8914, lng: 20.8660, label: "Mitrovicë" },
+};
 
 const PRAYERS: Array<{
   key: string;
