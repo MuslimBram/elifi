@@ -53,7 +53,8 @@ export default function PrayerTimesWidget() {
     try {
       const today = new Date();
       const dateStr = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
-      const res = await fetch(`https://api.aladhan.com/v1/${params}&date=${dateStr}&method=3`);
+      // method=13 = Diyanet (Turqi) — standardi i përdorur nga KMSH në Shqipëri/Kosovë
+      const res = await fetch(`https://api.aladhan.com/v1/${params}&date=${dateStr}&method=13&school=0`);
       const data = await res.json();
       if (data.data?.timings) {
         setTimes(data.data.timings);
