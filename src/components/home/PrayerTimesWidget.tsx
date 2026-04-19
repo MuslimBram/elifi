@@ -1,10 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Bell, MapPin, ChevronDown, Music } from "lucide-react";
 
-const ALBANIAN_CITIES = [
-  "Tirane", "Durres", "Shkoder", "Vlore", "Elbasan", "Korce", "Fier", "Berat",
-  "Prizren", "Prishtine", "Tetove", "Shkup", "Gjilan", "Pejë", "Mitrovice",
-];
+const ALBANIAN_CITIES: Record<string, { lat: number; lng: number; label: string }> = {
+  Tirane:    { lat: 41.3275, lng: 19.8187, label: "Tiranë" },
+  Durres:    { lat: 41.3231, lng: 19.4414, label: "Durrës" },
+  Shkoder:   { lat: 42.0683, lng: 19.5126, label: "Shkodër" },
+  Vlore:     { lat: 40.4686, lng: 19.4914, label: "Vlorë" },
+  Elbasan:   { lat: 41.1125, lng: 20.0822, label: "Elbasan" },
+  Korce:     { lat: 40.6186, lng: 20.7808, label: "Korçë" },
+  Fier:      { lat: 40.7239, lng: 19.5566, label: "Fier" },
+  Berat:     { lat: 40.7058, lng: 19.9522, label: "Berat" },
+  Prizren:   { lat: 42.2139, lng: 20.7397, label: "Prizren" },
+  Prishtine: { lat: 42.6629, lng: 21.1655, label: "Prishtinë" },
+  Tetove:    { lat: 42.0103, lng: 20.9714, label: "Tetovë" },
+  Shkup:     { lat: 41.9981, lng: 21.4254, label: "Shkup" },
+  Gjilan:    { lat: 42.4636, lng: 21.4694, label: "Gjilan" },
+  Peje:      { lat: 42.6591, lng: 20.2883, label: "Pejë" },
+  Mitrovice: { lat: 42.8914, lng: 20.8660, label: "Mitrovicë" },
+};
 
 const PRAYERS: Array<{
   key: string;
@@ -77,7 +90,8 @@ export default function PrayerTimesWidget() {
 
   useEffect(() => {
     if (!usingGPS) {
-      fetchTimes(`timingsByCity/?city=${encodeURIComponent(city)}&country=Albania`);
+      const c = ALBANIAN_CITIES[city] || ALBANIAN_CITIES.Tirane;
+      fetchTimes(`timings/?latitude=${c.lat}&longitude=${c.lng}`);
     }
   }, [city, usingGPS]);
 
@@ -170,18 +184,18 @@ export default function PrayerTimesWidget() {
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-white text-sm font-medium"
             >
               <MapPin className="w-3.5 h-3.5 text-white/60" />
-              {city === "Tirane" ? "Tiranë" : city}
+              {ALBANIAN_CITIES[city]?.label || city}
               <ChevronDown className="w-3.5 h-3.5 text-white/60" />
             </button>
             {showCityList && (
               <div className="absolute right-0 top-full mt-1 w-44 max-h-64 overflow-y-auto bg-gray-900 border border-white/10 rounded-xl shadow-xl z-20">
-                {ALBANIAN_CITIES.map(c => (
+                {Object.entries(ALBANIAN_CITIES).map(([key, c]) => (
                   <button
-                    key={c}
-                    onClick={() => { setCity(c); setUsingGPS(false); setShowCityList(false); }}
+                    key={key}
+                    onClick={() => { setCity(key); setUsingGPS(false); setShowCityList(false); }}
                     className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10"
                   >
-                    {c}
+                    {c.label}
                   </button>
                 ))}
               </div>
