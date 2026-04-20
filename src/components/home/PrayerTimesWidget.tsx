@@ -48,7 +48,13 @@ const HIJRI_MONTHS_SQ: Record<string, string> = {
 };
 
 export default function PrayerTimesWidget() {
-  const [times, setTimes] = useState<Record<string, string> | null>(null);
+  const FALLBACK_TIMES: Record<string, string> = {
+    Imsak: "04:30", Fajr: "04:50", Sunrise: "06:15",
+    Dhuhr: "12:30", Asr: "15:45", Maghrib: "18:30",
+    Sunset: "18:30", Isha: "20:00",
+  };
+  const [times, setTimes] = useState<Record<string, string> | null>(FALLBACK_TIMES);
+  const [error, setError] = useState<string | null>(null);
   const [city, setCity] = useState("Tirane");
   const [usingGPS, setUsingGPS] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -65,16 +71,15 @@ export default function PrayerTimesWidget() {
 
   const fetchTimes = async (params: string) => {
     setLoading(true);
+    setError(null);
     try {
       const today = new Date();
       const dateStr = `${String(today.getDate()).padStart(2,'0')}-${String(today.getMonth() + 1).padStart(2,'0')}-${today.getFullYear()}`;
-      // method=13 = Diyanet (Turqi) — standardi i përdorur nga KMSH në Shqipëri/Kosovë
-      // timezonestring forces correct local time conversion (otherwise API returns UTC-shifted values)
       const url = `https://api.aladhan.com/v1/${params}&date=${dateStr}&method=13&school=0&timezonestring=Europe/Tirane`;
       const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data.data?.timings) {
-        // Strip timezone suffix like " (CEST)" from each value
         const cleaned: Record<string, string> = {};
         Object.entries(data.data.timings).forEach(([k, v]) => {
           cleaned[k] = String(v).split(" ")[0];
@@ -85,8 +90,14 @@ export default function PrayerTimesWidget() {
           const monthSq = HIJRI_MONTHS_SQ[h.month?.en] || h.month?.en || "";
           setHijriDate(`${h.day} ${monthSq} ${h.year}`);
         }
+      } else {
+        throw new Error("No timings in response");
       }
-    } catch { /* silent */ }
+    } catch (e: any) {
+      console.error("Prayer times fetch failed:", e);
+      setError("Nuk u ngarkuan kohët online — duke përdorur vlerat e parazgjedhura.");
+      setTimes(FALLBACK_TIMES);
+    }
     setLoading(false);
   };
 
@@ -223,6 +234,7 @@ export default function PrayerTimesWidget() {
       {/* Prayer list */}
       <div className="divide-y divide-white/5">
         {loading && <div className="text-center py-4 text-white/50 text-sm">Duke ngarkuar...</div>}
+        {error && <div className="px-5 py-2 text-amber-400/80 text-xs text-center">{error}</div>}
         {times && PRAYERS.map(p => {
           const isNext = p.key === nextPrayer && p.isMain;
           const time = times[p.key]?.slice(0, 5);
