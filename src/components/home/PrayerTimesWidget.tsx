@@ -104,7 +104,7 @@ export default function PrayerTimesWidget() {
   useEffect(() => {
     if (!usingGPS) {
       const c = ALBANIAN_CITIES[city] || ALBANIAN_CITIES.Tirane;
-      fetchTimes(`timings/?latitude=${c.lat}&longitude=${c.lng}`);
+      fetchTimes(`timings?latitude=${c.lat}&longitude=${c.lng}`);
     }
   }, [city, usingGPS]);
 
@@ -113,7 +113,7 @@ export default function PrayerTimesWidget() {
     navigator.geolocation.getCurrentPosition((pos) => {
       const { latitude, longitude } = pos.coords;
       setUsingGPS(true);
-      fetchTimes(`timings/?latitude=${latitude}&longitude=${longitude}`);
+      fetchTimes(`timings?latitude=${latitude}&longitude=${longitude}`);
     });
   };
 
